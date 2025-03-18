@@ -1,0 +1,10 @@
+# CivicAide Policy Analysis System Requirements
+openai>=1.1.0
+openai-agents>=0.1.0  # Main dependency
+python-dotenv>=1.0.0  # For environment variable management
+requests>=2.31.0      # For web API requests
+pydantic>=2.0.0       # For data validation
+pydantic-core>=2.0.0  # Required by pydantic
+
+# Optional but recommended for enhanced functionality
+# serpapi>=0.1.0  # Uncomment to use SERP API for enhanced web searches 

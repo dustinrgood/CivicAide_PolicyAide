@@ -1,0 +1,216 @@
+C:\Users\dusti\OneDrive\Documents\Projects\openai-agents-python\src\civicaide>python run_policy_system.py
+API key found: True, Length: 164
+C:\Users\dusti\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:345: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+
+============================================================
+       CivicAide Policy Analysis System
+============================================================
+
+An AI-powered multi-agent system for local government policy analysis.
+Combining policy research and analysis capabilities.
+
+Available components:
+1. Full Integrated Policy System (research + analysis)
+2. Policy Research Only
+3. Policy Analysis Only
+4. Policy Evolution System (Google AI Co-Scientist approach)
+
+Enter your choice (1-4): 4
+
+Enter your policy question or topic: ban on single use plastic bags
+Save report to file? (y/n): y
+Enter filename (default: policy_evolution_20250317_145437.md):
+
+Running Policy Evolution System...
+
+============================================================
+CivicAide Policy Evolution System - Mimicking Google's AI Co-Scientist
+============================================================
+
+Policy Query: ban on single use plastic bags
+
+Trace ID: trace_4a26fc2c88394ad8971cc04875bc35f0
+
+--- Generation 1 ---
+
+Generating initial policy proposals...
+Generated 5 initial policy proposals
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Retailer-Led Reusable Bag Program vs Community Recycling Points and Incentives
+    Winner: Retailer-Led Reusable Bag Program
+    Comparison: Full Ban on Single-Use Plastic Bags vs Education and Awareness Campaign
+    Winner: Full Ban on Single-Use Plastic Bags
+  Tournament round 2/5
+    Comparison: Retailer-Led Reusable Bag Program vs Environmental Levy on Plastic Bags
+    Winner: Environmental Levy on Plastic Bags
+    Comparison: Community Recycling Points and Incentives vs Education and Awareness Campaign
+    Winner: Education and Awareness Campaign
+  Tournament round 3/5
+    Comparison: Environmental Levy on Plastic Bags vs Retailer-Led Reusable Bag Program
+    Winner: Environmental Levy on Plastic Bags
+    Comparison: Education and Awareness Campaign vs Community Recycling Points and Incentives
+    Winner: Community Recycling Points and Incentives
+  Tournament round 4/5
+    Comparison: Education and Awareness Campaign vs Environmental Levy on Plastic Bags
+    Winner: Environmental Levy on Plastic Bags
+    Comparison: Retailer-Led Reusable Bag Program vs Community Recycling Points and Incentives
+    Winner: Retailer-Led Reusable Bag Program
+  Tournament round 5/5
+    Comparison: Retailer-Led Reusable Bag Program vs Full Ban on Single-Use Plastic Bags
+    Winner: Full Ban on Single-Use Plastic Bags
+Server error 500, retrying.
+    Comparison: Environmental Levy on Plastic Bags vs Education and Awareness Campaign
+    Winner: Environmental Levy on Plastic Bags
+
+Current Policy Proposal Rankings:
+1. Environmental Levy on Plastic Bags (Elo: 1258.2)
+2. Full Ban on Single-Use Plastic Bags (Elo: 1231.3)
+3. Retailer-Led Reusable Bag Program (Elo: 1184.9)
+4. Community Recycling Points and Incentives (Elo: 1169.4)
+5. Education and Awareness Campaign (Elo: 1156.3)
+
+
+--- Generation 2 ---
+
+
+--- Evolving Top Policies ---
+
+  Evolved: Environmental Levy on Plastic Bags -> Comprehensive Plastic Bag Management and Environmental Funding Initiative
+  Improvements: 1. Introduced a variable levy to target larger and more environmentally harmful plastic bags differe...
+  Evolved: Full Ban on Single-Use Plastic Bags -> Comprehensive Reduction and Transition from Single-Use Plastic Bags
+  Improvements: The policy introduces an 18-month phased reduction to increase feasibility and allow adequate prepar...
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Education and Awareness Campaign vs Community Recycling Points and Incentives
+    Winner: Community Recycling Points and Incentives
+    Comparison: Retailer-Led Reusable Bag Program vs Full Ban on Single-Use Plastic Bags
+    Winner: Retailer-Led Reusable Bag Program
+    Comparison: Comprehensive Plastic Bag Management and Environmental Funding Initiative vs Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Winner: Comprehensive Reduction and Transition from Single-Use Plastic Bags
+  Tournament round 2/5
+    Comparison: Comprehensive Plastic Bag Management and Environmental Funding Initiative vs Retailer-Led Reusable Bag Program
+    Winner: Comprehensive Plastic Bag Management and Environmental Funding Initiative
+    Comparison: Full Ban on Single-Use Plastic Bags vs Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Winner: Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Comparison: Community Recycling Points and Incentives vs Education and Awareness Campaign
+    Winner: Education and Awareness Campaign
+  Tournament round 3/5
+    Comparison: Comprehensive Plastic Bag Management and Environmental Funding Initiative vs Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Winner: Comprehensive Plastic Bag Management and Environmental Funding Initiative
+    Comparison: Community Recycling Points and Incentives vs Full Ban on Single-Use Plastic Bags
+    Winner: Community Recycling Points and Incentives
+    Comparison: Retailer-Led Reusable Bag Program vs Education and Awareness Campaign
+    Winner: Retailer-Led Reusable Bag Program
+  Tournament round 4/5
+    Comparison: Full Ban on Single-Use Plastic Bags vs Education and Awareness Campaign
+    Winner: Full Ban on Single-Use Plastic Bags
+    Comparison: Retailer-Led Reusable Bag Program vs Community Recycling Points and Incentives
+    Winner: Retailer-Led Reusable Bag Program
+    Comparison: Comprehensive Plastic Bag Management and Environmental Funding Initiative vs Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Winner: Comprehensive Plastic Bag Management and Environmental Funding Initiative
+  Tournament round 5/5
+    Comparison: Comprehensive Reduction and Transition from Single-Use Plastic Bags vs Community Recycling Points and Incentives
+    Winner: Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Comparison: Retailer-Led Reusable Bag Program vs Full Ban on Single-Use Plastic Bags
+    Winner: Retailer-Led Reusable Bag Program
+    Comparison: Education and Awareness Campaign vs Comprehensive Plastic Bag Management and Environmental Funding Initiative
+    Winner: Comprehensive Plastic Bag Management and Environmental Funding Initiative
+
+Current Policy Proposal Rankings:
+1. Comprehensive Reduction and Transition from Single-Use Plastic Bags (Elo: 1259.7)
+2. Comprehensive Plastic Bag Management and Environmental Funding Initiative (Elo: 1252.1)
+3. Retailer-Led Reusable Bag Program (Elo: 1231.3)
+4. Full Ban on Single-Use Plastic Bags (Elo: 1181.4)
+5. Community Recycling Points and Incentives (Elo: 1156.6)
+6. Education and Awareness Campaign (Elo: 1118.8)
+
+
+--- Generation 3 ---
+
+
+--- Evolving Top Policies ---
+
+  Evolved: Comprehensive Reduction and Transition from Single-Use Plastic Bags -> Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+  Improvements: 1. Accelerated timeline for reduction and ban to address urgency.
+2. Expanded support for retailers ...
+  Evolved: Comprehensive Plastic Bag Management and Environmental Funding Initiative -> Advanced Plastic Bag Reduction and Eco-Innovation Initiative
+  Improvements: 1. Enhanced levy system accounting for full environmental impact, not just size and material.
+2. Inc...
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Community Recycling Points and Incentives vs Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Winner: Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Comparison: Retailer-Led Reusable Bag Program vs Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+    Winner: Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+    Comparison: Full Ban on Single-Use Plastic Bags vs Education and Awareness Campaign
+    Winner: Full Ban on Single-Use Plastic Bags
+    Comparison: Advanced Plastic Bag Reduction and Eco-Innovation Initiative vs Comprehensive Plastic Bag Management and Environmental Funding Initiative
+    Winner: Advanced Plastic Bag Reduction and Eco-Innovation Initiative
+  Tournament round 2/5
+    Comparison: Full Ban on Single-Use Plastic Bags vs Advanced Plastic Bag Reduction and Eco-Innovation Initiative
+    Winner: Advanced Plastic Bag Reduction and Eco-Innovation Initiative
+    Comparison: Education and Awareness Campaign vs Retailer-Led Reusable Bag Program
+    Winner: Retailer-Led Reusable Bag Program
+    Comparison: Community Recycling Points and Incentives vs Comprehensive Plastic Bag Management and Environmental Funding Initiative
+    Winner: Comprehensive Plastic Bag Management and Environmental Funding Initiative
+    Comparison: Comprehensive Reduction and Transition from Single-Use Plastic Bags vs Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+    Winner: Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+  Tournament round 3/5
+    Comparison: Full Ban on Single-Use Plastic Bags vs Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+    Winner: Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+    Comparison: Retailer-Led Reusable Bag Program vs Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Winner: Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Comparison: Community Recycling Points and Incentives vs Advanced Plastic Bag Reduction and Eco-Innovation Initiative
+    Winner: Advanced Plastic Bag Reduction and Eco-Innovation Initiative
+    Comparison: Comprehensive Plastic Bag Management and Environmental Funding Initiative vs Education and Awareness Campaign
+    Winner: Comprehensive Plastic Bag Management and Environmental Funding Initiative
+  Tournament round 4/5
+    Comparison: Retailer-Led Reusable Bag Program vs Advanced Plastic Bag Reduction and Eco-Innovation Initiative
+    Winner: Advanced Plastic Bag Reduction and Eco-Innovation Initiative
+    Comparison: Full Ban on Single-Use Plastic Bags vs Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+    Winner: Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+    Comparison: Education and Awareness Campaign vs Community Recycling Points and Incentives
+    Winner: Community Recycling Points and Incentives
+    Comparison: Comprehensive Plastic Bag Management and Environmental Funding Initiative vs Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Winner: Comprehensive Plastic Bag Management and Environmental Funding Initiative
+  Tournament round 5/5
+    Comparison: Community Recycling Points and Incentives vs Advanced Plastic Bag Reduction and Eco-Innovation Initiative
+    Winner: Advanced Plastic Bag Reduction and Eco-Innovation Initiative
+    Comparison: Education and Awareness Campaign vs Comprehensive Plastic Bag Management and Environmental Funding Initiative
+    Winner: Comprehensive Plastic Bag Management and Environmental Funding Initiative
+    Comparison: Retailer-Led Reusable Bag Program vs Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+    Winner: Enhanced Strategy for Phasing Out Single-Use Plastic Bags
+    Comparison: Full Ban on Single-Use Plastic Bags vs Comprehensive Reduction and Transition from Single-Use Plastic Bags
+    Winner: Comprehensive Reduction and Transition from Single-Use Plastic Bags
+
+Current Policy Proposal Rankings:
+1. Comprehensive Plastic Bag Management and Environmental Funding Initiative (Elo: 1279.4)
+2. Enhanced Strategy for Phasing Out Single-Use Plastic Bags (Elo: 1274.6)
+3. Advanced Plastic Bag Reduction and Eco-Innovation Initiative (Elo: 1269.8)
+4. Comprehensive Reduction and Transition from Single-Use Plastic Bags (Elo: 1262.5)
+5. Retailer-Led Reusable Bag Program (Elo: 1182.9)
+6. Full Ban on Single-Use Plastic Bags (Elo: 1142.4)
+7. Community Recycling Points and Incentives (Elo: 1125.5)
+8. Education and Awareness Campaign (Elo: 1063.1)
+
+
+--- Creating Final Policy Report ---
+
+Final policy report created
+
+Evolution report saved to: policy_evolution_20250317_145437.md
+
+Policy Evolution completed successfully!
+
+Thank you for using CivicAide Policy Analysis System!
+
+C:\Users\dusti\OneDrive\Documents\Projects\openai-agents-python\src\civicaide>
