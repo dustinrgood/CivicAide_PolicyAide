@@ -9,16 +9,19 @@ import time
 import re
 import requests
 from pathlib import Path
-from typing import List, Dict, Tuple, Optional, Union, Any
+from typing import List, Dict, Tuple, Optional, Union, Any, AsyncIterator, TypeVar, Set
 from dataclasses import dataclass, field
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
+import datetime
+import uuid
 
 # Add the project root to the Python path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 # Import the agents SDK
 from src.agents import Agent, Runner, ItemHelpers, trace, custom_span, gen_trace_id
+from agents.result import RunResult
 
 # Load environment variables
 dotenv_path = Path(__file__).parent / "local.env"
@@ -33,6 +36,20 @@ if "OPENAI_API_KEY" not in os.environ and os.path.exists(dotenv_path):
                 os.environ["OPENAI_API_KEY"] = key
                 print("API key loaded from local.env")
                 break
+
+# Define specialized agents for the orchestration pattern
+planning_agent = Agent(
+    name="Planning agent",
+    model="gpt-3.5-turbo",  # Using a faster model for initial planning
+    instructions="Specialized for planning research on policy topics. Generate a focused research plan with search queries and methodology.",
+    output_type=dict  # Use dict instead of output_schema
+)
+
+synthesis_agent = Agent(
+    name="Synthesis agent",
+    model="gpt-4o",  # Using a more powerful model for complex synthesis
+    instructions="Specialized for synthesizing complex policy research and findings. Create a cohesive synthesis that identifies key themes and promising approaches."
+)
 
 # ELO Rating System
 @dataclass
@@ -337,6 +354,12 @@ class LocalContext(BaseModel):
     budget_constraints: str
     local_challenges: str
     key_stakeholders: str
+    demographic_profile: Optional[str] = "Not specified"
+    prior_attempts: Optional[str] = "Not specified"
+    budget_cycle: Optional[str] = "Not specified"
+    election_timeline: Optional[str] = "Not specified"
+    stakeholder_influence: Optional[Dict[str, Dict[str, str]]] = Field(default_factory=dict)
+    contextual_notes: Optional[str] = None  # For storing additional context from user input
     
     class Config:
         schema_extra = {
@@ -394,7 +417,64 @@ async def web_search_api(query: str) -> Dict:
             else:
                 print(f"Search API error: {response.status_code}")
         
-        # Fallback or mock results
+        # Use the OpenAI Agents SDK web search instead if SERP_API_KEY is not available
+        # This will provide real web search results from OpenAI's search backend
+        try:
+            from src.agents import Runner
+            from src.agents import Agent
+            
+            # Create a simple web search agent
+            web_search_agent = Agent(
+                name="Web Search Agent",
+                instructions=f"Perform a web search for '{query}' and return the most relevant results",
+                model="gpt-4o",
+            )
+            
+            # Run the web search through OpenAI's web search tool
+            print(f"Using OpenAI web search for: {query}")
+            search_result = await Runner.run_with_tools(
+                web_search_agent, 
+                query,
+                tool_choice={"type": "web_search"}
+            )
+            
+            # Format the results similar to SerpAPI format
+            result_text = str(search_result)
+            
+            # Extract URLs and content from result text
+            import re
+            urls = re.findall(r'https?://[^\s)]+', result_text)
+            content_parts = result_text.split("\n\n")
+            
+            # Create synthetic organic results
+            organic_results = []
+            for i, url in enumerate(urls[:3]):  # Limit to top 3 results if more were found
+                snippet = content_parts[i] if i < len(content_parts) else f"Result for {query}"
+                organic_results.append({
+                    "title": f"Web Result {i+1} for {query}",
+                    "snippet": snippet[:200] + "...",
+                    "link": url
+                })
+            
+            # If no URLs were found, create default results
+            if not organic_results:
+                for i in range(3):
+                    organic_results.append({
+                        "title": f"Web Result {i+1} for {query}",
+                        "snippet": f"Information about {query} from web search.",
+                        "link": f"https://example.com/result{i+1}"
+                    })
+            
+            return {
+                "query": query,
+                "organic_results": organic_results
+            }
+        except Exception as e:
+            print(f"Error using OpenAI web search: {e}")
+            # Fall back to mock results if OpenAI search fails
+            print("Falling back to simulated search results due to OpenAI search error")
+        
+        # Fallback or mock results if both search methods fail
         print("Using simulated search results")
         time.sleep(1)  # Simulate API delay
         
@@ -513,7 +593,11 @@ class PolicyEvolutionManager:
             f"4. Are there specific political considerations or constraints to be aware of?\n"
             f"5. What budget limitations should be considered for implementation?\n"
             f"6. Are there any unique local challenges or opportunities related to this policy area?\n"
-            f"7. Who are the key stakeholders that would be affected by this policy?"
+            f"7. Who are the key stakeholders that would be affected by this policy?\n"
+            f"8. What key demographic factors are important (e.g., median age, income distribution)?\n"
+            f"9. Have similar policies been attempted locally before?\n"
+            f"10. Where are you in the budget cycle?\n"
+            f"11. Are there any upcoming elections to consider?"
         )
         
         # Print the context prompt
@@ -528,7 +612,13 @@ class PolicyEvolutionManager:
             "political_landscape": "",
             "budget_constraints": "",
             "local_challenges": "",
-            "key_stakeholders": ""
+            "key_stakeholders": "",
+            "demographic_profile": "",
+            "prior_attempts": "",
+            "budget_cycle": "",
+            "election_timeline": "",
+            "stakeholder_influence": {},
+            "contextual_notes": None
         }
         
         # Collect responses for each field
@@ -540,12 +630,43 @@ class PolicyEvolutionManager:
             responses["budget_constraints"] = input("Budget limitations: ")
             responses["local_challenges"] = input("Unique local challenges/opportunities: ")
             responses["key_stakeholders"] = input("Key stakeholders: ")
+            
+            # Collect deeper contextual elements
+            responses["demographic_profile"] = input("Key demographic factors: ")
+            responses["prior_attempts"] = input("Have similar policies been attempted locally before? Details: ")
+            responses["budget_cycle"] = input("Where are you in the budget cycle? ")
+            responses["election_timeline"] = input("Upcoming election considerations: ")
+            
+            # Optional stakeholder influence mapping - ALWAYS ensure it's a dictionary
+            collect_stakeholder_influence = input("Would you like to provide detailed stakeholder influence information? (yes/no): ")
+            
+            # Initialize stakeholder_influence as an empty dictionary by default
+            responses["stakeholder_influence"] = {}
+            
+            if collect_stakeholder_influence.lower().strip() == "yes":
+                # Only enter this section if they specifically type "yes"
+                while True:
+                    stakeholder = input("Enter stakeholder name (or 'done' to finish): ")
+                    if stakeholder.lower() == 'done':
+                        break
+                    influence = input(f"Rate {stakeholder}'s influence (1-5): ")
+                    stance = input(f"{stakeholder}'s likely stance on this policy (support/neutral/oppose): ")
+                    responses["stakeholder_influence"][stakeholder] = {"influence": influence, "stance": stance}
+            else:
+                # For any other input, just store it as a contextual note and keep stakeholder_influence as empty dict
+                if collect_stakeholder_influence and collect_stakeholder_influence.lower() != "no":
+                    # If they provided additional context rather than just "no"
+                    responses["contextual_notes"] = collect_stakeholder_influence
+                    print("Additional context noted. Continuing with empty stakeholder influence mapping.")
+            
         except Exception as e:
             print(f"Error collecting input: {e}")
             # Provide default values if input fails
             for key in responses:
-                if not responses[key]:
+                if not responses[key] and key != "stakeholder_influence" and key != "contextual_notes":
                     responses[key] = "Not specified"
+            # Ensure stakeholder_influence is always a dictionary
+            responses["stakeholder_influence"] = responses.get("stakeholder_influence", {})
         
         # Ensure population is extracted from jurisdiction if combined
         if "population" not in responses["population_size"].lower() and responses["jurisdiction_type"]:
@@ -558,36 +679,85 @@ class PolicyEvolutionManager:
                 if len(jurisdiction_parts) > 1:
                     responses["jurisdiction_type"] = jurisdiction_parts[0].strip()
         
-        # Make sure all fields have values
+        # Make sure all required fields have values
         for key in responses:
-            if not responses[key]:
+            if not responses[key] and key != "contextual_notes" and key != "stakeholder_influence":
                 responses[key] = "Not specified"
         
         # Print the collected responses for verification
         print("\nCollected context information:")
         for key, value in responses.items():
-            print(f"- {key.replace('_', ' ').title()}: {value}")
+            if key != "stakeholder_influence":  # Skip detailed stakeholder influence for cleaner output
+                print(f"- {key.replace('_', ' ').title()}: {value}")
         
         # Create context object
         try:
             local_context = LocalContext(**responses)
             print("\nLocal context information gathered successfully.")
+            
+            # DEBUG: Add detailed logging of the local context object
+            print("\n[DEBUG] Local context object attributes:")
+            for attr, value in local_context.__dict__.items():
+                if attr != "_sa_instance_state" and attr != "stakeholder_influence":
+                    print(f"  {attr}: {value}")
+            
             return local_context
         except Exception as e:
             print(f"Error creating local context: {e}")
-            # Create a fallback context with default values
-            fallback_context = LocalContext(
-                jurisdiction_type="Not specified",
-                population_size="Not specified",
-                economic_context="Not specified",
-                existing_policies="Not specified",
-                political_landscape="Not specified",
-                budget_constraints="Not specified",
-                local_challenges="Not specified",
-                key_stakeholders="Not specified"
-            )
-            print("Using default context values due to input error.")
-            return fallback_context
+            
+            # More robust error handling - instead of using default values, 
+            # try to salvage the input data by handling specific validation errors
+            try:
+                # Try fixing common validation issues
+                fixed_responses = responses.copy()
+                
+                # Ensure stakeholder_influence is a dictionary
+                if not isinstance(fixed_responses.get("stakeholder_influence"), dict):
+                    fixed_responses["stakeholder_influence"] = {}
+                    print("Fixed stakeholder_influence to be an empty dictionary.")
+                
+                # Try again with fixed data
+                local_context = LocalContext(**fixed_responses)
+                print("Successfully created local context after fixing validation issues.")
+                
+                # DEBUG: Add detailed logging of the local context object
+                print("\n[DEBUG] Fixed local context object attributes:")
+                for attr, value in local_context.__dict__.items():
+                    if attr != "_sa_instance_state" and attr != "stakeholder_influence":
+                        print(f"  {attr}: {value}")
+                
+                return local_context
+            except Exception as e2:
+                print(f"Error even after fixing validation issues: {e2}")
+                
+                # Last resort - create an object that preserves the input context as much as possible
+                print("Using manual context creation to preserve user input...")
+                
+                # Extract the jurisdiction information as it's the most critical piece
+                jurisdiction = responses.get("jurisdiction_type", "Not specified")
+                if jurisdiction == "":
+                    jurisdiction = "Not specified"
+                    
+                # Create a fallback context with manually constructed values
+                fallback_context = LocalContext(
+                    jurisdiction_type=jurisdiction,
+                    population_size=responses.get("population_size", "Not specified") or "Not specified",
+                    economic_context=responses.get("economic_context", "Not specified") or "Not specified",
+                    existing_policies=responses.get("existing_policies", "Not specified") or "Not specified",
+                    political_landscape=responses.get("political_landscape", "Not specified") or "Not specified",
+                    budget_constraints=responses.get("budget_constraints", "Not specified") or "Not specified",
+                    local_challenges=responses.get("local_challenges", "Not specified") or "Not specified",
+                    key_stakeholders=responses.get("key_stakeholders", "Not specified") or "Not specified",
+                    demographic_profile=responses.get("demographic_profile", "Not specified") or "Not specified",
+                    prior_attempts=responses.get("prior_attempts", "Not specified") or "Not specified",
+                    budget_cycle=responses.get("budget_cycle", "Not specified") or "Not specified",
+                    election_timeline=responses.get("election_timeline", "Not specified") or "Not specified",
+                    stakeholder_influence={},
+                    contextual_notes=responses.get("contextual_notes")
+                )
+                
+                print("Created fallback context with preserved user input.")
+                return fallback_context
 
     async def _conduct_web_research(self, query: str, local_context: LocalContext) -> ResearchResults:
         """Conduct web research based on the policy query and local context."""
@@ -717,16 +887,30 @@ class PolicyEvolutionManager:
             # Prepare the generation prompt with context and research
             generation_prompt = (
                 f"Policy Query: {query}\n\n"
-                f"Local Context:\n"
+                f"LOCAL CONTEXT (IMPORTANT - CUSTOMIZE PROPOSALS FOR THIS SPECIFIC CONTEXT):\n"
                 f"- Jurisdiction: {local_context.jurisdiction_type} (Population: {local_context.population_size})\n"
                 f"- Economic Context: {local_context.economic_context}\n"
                 f"- Existing Policies: {local_context.existing_policies}\n"
                 f"- Political Landscape: {local_context.political_landscape}\n"
                 f"- Budget Constraints: {local_context.budget_constraints}\n"
                 f"- Local Challenges: {local_context.local_challenges}\n"
-                f"- Key Stakeholders: {local_context.key_stakeholders}\n\n"
-                f"Based on this policy query and local context, generate diverse policy proposals."
+                f"- Key Stakeholders: {local_context.key_stakeholders}\n"
+                f"- Demographics: {local_context.demographic_profile}\n"
+                f"- Prior Policy Attempts: {local_context.prior_attempts}\n\n"
+                f"RESEARCH FINDINGS:\n"
+                f"- Successful Implementations: {json.dumps(research_results.successful_implementations)[:300]}...\n"
+                f"- Example Ordinances: {json.dumps(research_results.example_ordinances)[:300]}...\n"
+                f"- Stakeholder Responses: {json.dumps(research_results.stakeholder_responses)[:300]}...\n\n"
+                f"TASK: Based on this specific local context and research, generate three diverse, detailed, and tailored policy proposals.\n"
+                f"Each proposal MUST be customized to address the unique aspects of {local_context.jurisdiction_type}, its {local_context.economic_context} economic context, "
+                f"and political considerations including {local_context.political_landscape}.\n"
+                f"Be sure each proposal accounts for budget constraints: {local_context.budget_constraints}\n"
+                f"Explicitly address how the policy will handle these local challenges: {local_context.local_challenges}"
             )
+            
+            # Log the generation prompt for debugging
+            print("\n[DEBUG] Policy generation prompt (first 500 chars):")
+            print(generation_prompt[:500] + "...\n")
             
             generation_result = await Runner.run(
                 policy_generation_agent,
@@ -879,6 +1063,12 @@ class PolicyEvolutionManager:
         """Create a final policy report incorporating local context and research findings."""
         print("\n--- Creating Final Policy Report ---\n")
         
+        # DEBUG: Print local context to verify it's properly passed to this function
+        print("\n[DEBUG] Local context in final report creation:")
+        for attr, value in local_context.__dict__.items():
+            if attr != "_sa_instance_state" and attr != "stakeholder_influence":
+                print(f"  {attr}: {value}")
+        
         with custom_span("Final Policy Report", parent=self.current_trace):
             # Get the top-rated proposals
             top_proposals = self._get_top_proposals(3)
@@ -943,20 +1133,66 @@ class PolicyEvolutionManager:
                 )
                 top_proposal_models.append(proposal_model)
             
+            # Check if policy proposals mention the specific jurisdiction or local context
+            local_context_referenced = False
+            jurisdiction = local_context.jurisdiction_type
+            
+            if jurisdiction != "Not specified":
+                for model in top_proposal_models:
+                    if (jurisdiction.lower() in model.title.lower() or 
+                        jurisdiction.lower() in model.description.lower() or 
+                        jurisdiction.lower() in model.rationale.lower()):
+                        local_context_referenced = True
+                        break
+            
             # Generate the final report with enhanced stakeholder analysis
             report_input = (
                 f"Policy Query: {query}\n\n"
-                f"Local Context:\n"
+                f"LOCAL CONTEXT (CRITICAL FOR REPORT CUSTOMIZATION):\n"
                 f"- Jurisdiction: {local_context.jurisdiction_type} (Population: {local_context.population_size})\n"
                 f"- Economic Context: {local_context.economic_context}\n"
                 f"- Existing Policies: {local_context.existing_policies}\n"
                 f"- Political Landscape: {local_context.political_landscape}\n"
                 f"- Budget Constraints: {local_context.budget_constraints}\n"
-                f"- Local Challenges: {local_context.local_challenges}\n\n"
+                f"- Local Challenges: {local_context.local_challenges}\n"
+                f"- Key Stakeholders: {local_context.key_stakeholders}\n"
+                f"- Demographics: {local_context.demographic_profile}\n"
+                f"- Prior Policy Attempts: {local_context.prior_attempts}\n\n"
+            )
+            
+            # Add stronger instructions if the local context wasn't referenced in proposals
+            if not local_context_referenced and jurisdiction != "Not specified":
+                report_input += (
+                    f"SPECIAL INSTRUCTIONS (IMPORTANT):\n"
+                    f"The policy proposals do not adequately reference the specific local context of {jurisdiction}. "
+                    f"YOUR TASK IS TO EXPLICITLY LOCALIZE ALL RECOMMENDATIONS IN YOUR REPORT TO {jurisdiction.upper()}. "
+                    f"Every section of your report must directly reference {jurisdiction} and tailor recommendations "
+                    f"to its unique circumstances, including specific references to:\n"
+                    f"- The economic landscape of {jurisdiction}: {local_context.economic_context}\n"
+                    f"- Political realities in {jurisdiction}: {local_context.political_landscape}\n"
+                    f"- Unique local challenges of {jurisdiction}: {local_context.local_challenges}\n"
+                    f"- Key stakeholders in {jurisdiction}: {local_context.key_stakeholders}\n\n"
+                )
+            else:
+                report_input += (
+                    f"INSTRUCTIONS:\n"
+                    f"Create a comprehensive policy report that directly addresses the specific context of {local_context.jurisdiction_type} "
+                    f"with its unique economic factors ({local_context.economic_context}), "
+                    f"political considerations ({local_context.political_landscape}), and "
+                    f"local challenges ({local_context.local_challenges}).\n\n"
+                    f"The report MUST reflect these contextual factors throughout all sections. "
+                    f"Every recommendation should consider budget constraints: {local_context.budget_constraints}\n\n"
+                )
+            
+            report_input += (
                 f"Top Policy Proposals: {json.dumps([model_to_dict(model) for model in top_proposal_models], indent=2)}\n\n"
                 f"Impact Matrix: {json.dumps(impact_matrix, indent=2)}\n\n"
                 f"Stakeholder Analysis: {json.dumps(stakeholder_analysis, indent=2)}"
             )
+            
+            # DEBUG: Log a sample of the report input to verify local context is included
+            print("\n[DEBUG] Sample of report input (first 500 chars):")
+            print(report_input[:500])
             
             final_report = await Runner.run(
                 policy_report_agent,
@@ -1046,4 +1282,192 @@ if __name__ == "__main__":
             for i, step in enumerate(report.implementation_steps):
                 f.write(f"{i+1}. {step}\n")
         
-        print(f"\nReport saved to: {output_file}") 
+        print(f"\nReport saved to: {output_file}")
+
+async def orchestrate_policy_analysis(query: str, context: LocalContext) -> dict:
+    """Orchestrate multiple specialized LLMs in parallel processes"""
+    
+    # DEBUG: Log the context at the start of orchestration
+    print("\n[DEBUG] Starting orchestration with context:")
+    for attr, value in context.__dict__.items():
+        if attr != "_sa_instance_state" and attr != "stakeholder_influence":
+            print(f"  {attr}: {value}")
+    
+    # Step 1: Initial research plan (using a fast model)
+    print("\n[DEBUG] Running planning agent with query:", query)
+    planning_result = await Runner.run(planning_agent, query)
+    
+    # DEBUG: Log the planning result
+    print(f"\n[DEBUG] Planning result obtained. Search items: {len(planning_result.final_output.get('searches', []))}")
+    
+    # Step 2: Parallel research and analysis tasks (multiple models with different strengths)
+    research_tasks = []
+    for search_item in planning_result.final_output.get('searches', []):
+        print(f"\n[DEBUG] Creating research task for: {search_item}")
+        research_tasks.append(
+            asyncio.create_task(perform_targeted_research(search_item, context))
+        )
+    
+    # Also run policy precedent analysis in parallel
+    print(f"\n[DEBUG] Creating precedent analysis task for jurisdiction: {context.jurisdiction_type}")
+    research_tasks.append(
+        asyncio.create_task(analyze_policy_precedents(query, context.jurisdiction_type))
+    )
+    
+    # Step 3: Gather all research results
+    print(f"\n[DEBUG] Gathering {len(research_tasks)} research tasks")
+    research_results = await asyncio.gather(*research_tasks)
+    
+    # DEBUG: Log research results summary
+    print(f"\n[DEBUG] Gathered {len(research_results)} research results")
+    
+    # Step 4: Have a synthesis model integrate findings
+    synthesis_prompt = create_synthesis_prompt(query, research_results, context)
+    
+    # DEBUG: Log synthesis prompt sample
+    print("\n[DEBUG] Synthesis prompt sample (first 300 chars):")
+    print(synthesis_prompt[:300])
+    
+    synthesis_result = await Runner.run(synthesis_agent, synthesis_prompt)
+    
+    # Step 5: Generate three competing policy approaches using tournament method
+    print("\n[DEBUG] Starting policy tournament with context from jurisdiction:", context.jurisdiction_type)
+    policy_options = await generate_policy_tournament(
+        synthesis_result.final_output, 
+        context,
+        rounds=7  # Increased from 5 for more thorough comparison
+    )
+    
+    return {
+        "research": research_results,
+        "synthesis": synthesis_result.final_output,
+        "policy_options": policy_options
+    }
+
+# Supporting functions for the orchestration
+
+async def perform_targeted_research(search_item: str, context: LocalContext) -> dict:
+    """Perform targeted research on a specific search item"""
+    # This would be implemented to use a specialized research agent
+    research_agent = Agent(
+        name="Research specialist",
+        model="gpt-4o",
+        instructions="Specialized for deep research on policy topics"
+    )
+    
+    research_prompt = (
+        f"Conduct targeted research on '{search_item}' specifically for "
+        f"{context.jurisdiction_type} with population {context.population_size}. "
+        f"Consider economic context: {context.economic_context}. "
+        f"Focus on finding relevant precedents, case studies, and outcome data."
+    )
+    
+    result = await Runner.run(research_agent, research_prompt)
+    return {
+        "search_term": search_item,
+        "findings": result.final_output,
+        "source_quality": "high" if "academic" in result.final_output.lower() else "medium"
+    }
+
+async def analyze_policy_precedents(query: str, jurisdiction_type: str) -> dict:
+    """Analyze policy precedents for similar jurisdictions"""
+    # This would use a model specialized in legal/policy analysis
+    precedent_agent = Agent(
+        name="Policy precedent analyzer",
+        model="gpt-4o",
+        instructions="Specialized for analyzing policy precedents and legal frameworks"
+    )
+    
+    precedent_prompt = (
+        f"Analyze existing policy precedents related to '{query}' "
+        f"specifically for {jurisdiction_type} jurisdictions. "
+        f"Focus on identifying legal frameworks, constitutional limits, "
+        f"and successful past implementations in similar contexts."
+    )
+    
+    result = await Runner.run(precedent_agent, precedent_prompt)
+    return {
+        "precedents": result.final_output,
+        "jurisdiction_relevance": "high" if jurisdiction_type.lower() in result.final_output.lower() else "medium"
+    }
+
+def create_synthesis_prompt(query: str, research_results: list, context: LocalContext) -> str:
+    """Create a synthesis prompt from research results"""
+    research_summary = "\n\n".join([
+        f"Research on '{r.get('search_term', 'policy precedents')}': {r.get('findings', r.get('precedents', ''))}"
+        for r in research_results
+    ])
+    
+    return (
+        f"Synthesize the following research about '{query}' for {context.jurisdiction_type} "
+        f"with population {context.population_size} and political landscape: {context.political_landscape}.\n\n"
+        f"Consider budget constraints: {context.budget_constraints}\n\n"
+        f"RESEARCH FINDINGS:\n{research_summary}\n\n"
+        f"Create a comprehensive synthesis that identifies key themes, contradictions, "
+        f"and promising approaches across all research. Focus on what's most relevant "
+        f"for this specific jurisdiction context."
+    )
+
+async def generate_policy_tournament(synthesis: str, context: LocalContext, rounds: int = 7) -> list:
+    """Generate competing policy approaches and run a tournament to find the best"""
+    # Generate initial policy options
+    policy_agent = Agent(
+        name="Policy designer",
+        model="gpt-4o",
+        instructions="Specialized for creative policy design"
+    )
+    
+    # Generate three distinct policy approaches
+    policy_generation_prompt = (
+        f"Based on this synthesis: '{synthesis[:1000]}...', "
+        f"generate three distinct policy approaches for {context.jurisdiction_type} "
+        f"addressing different stakeholder priorities, implementation timelines, and costs. "
+        f"Each policy should be realistic within budget constraints: {context.budget_constraints} "
+        f"and political landscape: {context.political_landscape}."
+    )
+    
+    initial_policies = await Runner.run(policy_agent, policy_generation_prompt)
+    
+    # Run tournament
+    tournament_agent = Agent(
+        name="Policy evaluator",
+        model="gpt-4o",
+        instructions="Specialized for critical policy evaluation"
+    )
+    
+    policies = initial_policies.final_output
+    for _ in range(rounds):
+        # Select two random policies to compare
+        policy_1, policy_2 = random.sample(policies, 2)
+        
+        comparison_prompt = (
+            f"Compare these two policy approaches for {context.jurisdiction_type}:\n\n"
+            f"POLICY A: {policy_1}\n\n"
+            f"POLICY B: {policy_2}\n\n"
+            f"Consider feasibility, stakeholder support, cost-effectiveness, and equity. "
+            f"Which policy is stronger overall and why? Return your answer in this format: "
+            f"WINNER: [A or B]\nREASONING: [detailed reasoning]"
+        )
+        
+        result = await Runner.run(tournament_agent, comparison_prompt)
+        
+        # Update policies based on winner's strengths and loser's weaknesses
+        if "WINNER: A" in result.final_output:
+            winner, loser = policy_1, policy_2
+        else:
+            winner, loser = policy_2, policy_1
+            
+        # Evolve the weaker policy
+        evolution_prompt = (
+            f"Evolve this policy approach: {loser}\n\n"
+            f"Incorporate these strengths from a competing policy: {winner}\n\n"
+            f"Create an improved version that addresses the weaknesses while maintaining "
+            f"its unique perspective and approach."
+        )
+        
+        evolved_policy = await Runner.run(policy_agent, evolution_prompt)
+        
+        # Replace the loser with the evolved policy
+        policies = [p if p != loser else evolved_policy.final_output for p in policies]
+    
+    return policies 

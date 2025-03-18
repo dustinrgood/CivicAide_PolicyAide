@@ -1,0 +1,77 @@
+{
+  "official_info": {
+    "name": "Vicki",
+    "email": "vicki@gmail.cm",
+    "role": "Mayor",
+    "interests": [
+      "Transportation"
+    ]
+  },
+  "basic_info": {
+    "jurisdiction_type": "Village",
+    "name": "Village of St. Charles",
+    "state": "Illinois",
+    "county": "Information not available",
+    "incorporation_date": "Information not available",
+    "population": 0,
+    "area_sq_miles": 0,
+    "population_density": 0
+  },
+  "demographics": {
+    "racial_makeup": {
+      "Information": "not available"
+    },
+    "median_age": 0,
+    "median_household_income": 0,
+    "poverty_rate": 0,
+    "education_bachelors_or_higher": 0
+  },
+  "government": {
+    "gov_type": "Information not available",
+    "mayor": "Information not available",
+    "council_size": 0,
+    "election_schedule": "Information not available",
+    "meeting_schedule": "Information not available",
+    "departments": [
+      "Information not available"
+    ]
+  },
+  "budget": {
+    "fiscal_year": "Information not available",
+    "total_budget": "Information not available",
+    "general_fund": "Information not available",
+    "capital_improvements": "Information not available",
+    "sustainability_allocation": "Information not available",
+    "major_revenue_sources": [
+      "Information not available"
+    ]
+  },
+  "current_priorities": [
+    "Information not available"
+  ],
+  "key_stakeholders": {
+    "business_groups": [
+      "Information not available"
+    ],
+    "community_orgs": [
+      "Information not available"
+    ],
+    "educational_institutions": [
+      "Information not available"
+    ],
+    "media_outlets": [
+      "Information not available"
+    ]
+  },
+  "political_landscape": {
+    "voter_turnout_last_election": "Information not available",
+    "partisan_makeup": "Information not available",
+    "active_community_issues": [
+      "Information not available"
+    ]
+  },
+  "recent_legislation": [
+    "Information not available"
+  ],
+  "profile_created": "2025-03-18 13:16:07"
+}

@@ -143,3 +143,17 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Environment variables and secrets
+*.env
+
+# Output directories
+sample_output/
+sample_output_*/
+outputs/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo

@@ -1,0 +1,238 @@
+C:\Users\dusti\OneDrive\Documents\Projects\openai-agents-python\src\civicaide>python run_policy_system.py
+API key found: True, Length: 164
+C:\Users\dusti\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:345: UserWarning: Valid config keys have changed in V2:
+* 'schema_extra' has been renamed to 'json_schema_extra'
+  warnings.warn(message, UserWarning)
+
+============================================================
+       CivicAide Policy Analysis System
+============================================================
+
+An AI-powered multi-agent system for local government policy analysis.
+Combining policy research and analysis capabilities.
+
+Available components:
+1. Full Integrated Policy System (research + analysis)
+2. Policy Research Only
+3. Policy Analysis Only
+4. Policy Evolution System (Google AI Co-Scientist approach)
+
+Enter your choice (1-4): 4
+
+Enter your policy question or topic: ban single use plastic bags
+Save report to file? (y/n): y
+Enter filename (default: policy_evolution_20250317_154143.md): bag_ban
+
+Running Policy Evolution System...
+
+============================================================
+CivicAide Policy Evolution System - Mimicking Google's AI Co-Scientist
+============================================================
+
+Policy Query: ban single use plastic bags
+
+Trace ID: trace_4c3c8c642ac54d77b0839bb7f02ca6bd
+
+--- Generation 1 ---
+
+Generating initial policy proposals...
+Generated 3 initial policy proposals
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Plastic Bag Buy-Back and Recycling Initiative
+    Winner: Plastic Bag Buy-Back and Recycling Initiative
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Plastic Bag Buy-Back and Recycling Initiative
+    Winner: Plastic Bag Buy-Back and Recycling Initiative
+  Tournament round 2/5
+    Comparison: Incentivize Reusable Bags Program vs Plastic Bag Buy-Back and Recycling Initiative
+    Winner: Plastic Bag Buy-Back and Recycling Initiative
+    Comparison: Incentivize Reusable Bags Program vs Plastic Bag Buy-Back and Recycling Initiative
+    Winner: Plastic Bag Buy-Back and Recycling Initiative
+  Tournament round 3/5
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+  Tournament round 4/5
+    Comparison: Plastic Bag Buy-Back and Recycling Initiative vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Plastic Bag Buy-Back and Recycling Initiative vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+  Tournament round 5/5
+    Comparison: Plastic Bag Buy-Back and Recycling Initiative vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Plastic Bag Buy-Back and Recycling Initiative vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+
+Current Policy Proposal Rankings:
+1. Transition Support for Retailers to Biodegradable Alternatives (Elo: 1204.1)
+2. Incentivize Reusable Bags Program (Elo: 1200.7)
+3. Plastic Bag Buy-Back and Recycling Initiative (Elo: 1195.2)
+
+
+--- Generation 2 ---
+
+
+--- Evolving Top Policies ---
+
+  Evolved: Transition Support for Retailers to Biodegradable Alternatives -> Comprehensive Transition Support for Retailers to Sustainable Packaging
+  Improvements: 1. Expand financial assistance beyond grants to include low-interest loans and tax incentives for ad...
+  Evolved: Incentivize Reusable Bags Program -> Enhanced Reusable Bags Incentive and Awareness Program
+  Improvements: 1. Added an educational component to increase awareness and long-term behavioral change.
+2. Introduc...
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Winner: Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Winner: Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Comparison: Incentivize Reusable Bags Program vs Enhanced Reusable Bags Incentive and Awareness Program
+    Winner: Enhanced Reusable Bags Incentive and Awareness Program
+    Comparison: Incentivize Reusable Bags Program vs Enhanced Reusable Bags Incentive and Awareness Program
+    Winner: Enhanced Reusable Bags Incentive and Awareness Program
+  Tournament round 2/5
+    Comparison: Incentivize Reusable Bags Program vs Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Winner: Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Comparison: Incentivize Reusable Bags Program vs Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Winner: Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Comparison: Enhanced Reusable Bags Incentive and Awareness Program vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Enhanced Reusable Bags Incentive and Awareness Program vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+  Tournament round 3/5
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Enhanced Reusable Bags Incentive and Awareness Program
+    Winner: Enhanced Reusable Bags Incentive and Awareness Program
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Enhanced Reusable Bags Incentive and Awareness Program
+    Winner: Enhanced Reusable Bags Incentive and Awareness Program
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+  Tournament round 4/5
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Enhanced Reusable Bags Incentive and Awareness Program
+    Winner: Enhanced Reusable Bags Incentive and Awareness Program
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Enhanced Reusable Bags Incentive and Awareness Program
+    Winner: Enhanced Reusable Bags Incentive and Awareness Program
+  Tournament round 5/5
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Winner: Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Comparison: Transition Support for Retailers to Biodegradable Alternatives vs Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Winner: Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Comparison: Incentivize Reusable Bags Program vs Enhanced Reusable Bags Incentive and Awareness Program
+    Winner: Enhanced Reusable Bags Incentive and Awareness Program
+    Comparison: Incentivize Reusable Bags Program vs Enhanced Reusable Bags Incentive and Awareness Program
+    Winner: Enhanced Reusable Bags Incentive and Awareness Program
+
+Current Policy Proposal Rankings:
+1. Enhanced Reusable Bags Incentive and Awareness Program (Elo: 1240.9)
+2. Comprehensive Transition Support for Retailers to Sustainable Packaging (Elo: 1209.9)
+3. Incentivize Reusable Bags Program (Elo: 1190.7)
+4. Transition Support for Retailers to Biodegradable Alternatives (Elo: 1158.5)
+
+
+--- Generation 3 ---
+
+
+--- Evolving Top Policies ---
+
+  Evolved: Enhanced Reusable Bags Incentive and Awareness Program -> Comprehensive Sustainable Shopping Initiative
+  Improvements: The evolved proposal introduces subsidies for low-income communities, ensuring equitable access. It ...
+  Evolved: Comprehensive Transition Support for Retailers to Sustainable Packaging -> Enhanced Transition Support for Retailers to Sustainable Packaging
+  Improvements: 1. Increase financial aid by allocating more funds and introducing tax incentives for early adopters...
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Enhanced Reusable Bags Incentive and Awareness Program vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+    Comparison: Enhanced Reusable Bags Incentive and Awareness Program vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Comprehensive Sustainable Shopping Initiative
+    Winner: Comprehensive Sustainable Shopping Initiative
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Comprehensive Sustainable Shopping Initiative
+    Winner: Comprehensive Sustainable Shopping Initiative
+    Comparison: Enhanced Transition Support for Retailers to Sustainable Packaging vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Enhanced Transition Support for Retailers to Sustainable Packaging vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+  Tournament round 2/5
+    Comparison: Enhanced Transition Support for Retailers to Sustainable Packaging vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Enhanced Transition Support for Retailers to Sustainable Packaging vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Comprehensive Sustainable Shopping Initiative vs Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Winner: Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Comparison: Comprehensive Sustainable Shopping Initiative vs Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Winner: Comprehensive Transition Support for Retailers to Sustainable Packaging
+    Comparison: Enhanced Reusable Bags Incentive and Awareness Program vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+    Comparison: Enhanced Reusable Bags Incentive and Awareness Program vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+  Tournament round 3/5
+    Comparison: Enhanced Reusable Bags Incentive and Awareness Program vs Enhanced Transition Support for Retailers to Sustainable Packaging
+    Winner: Enhanced Transition Support for Retailers to Sustainable Packaging
+    Comparison: Enhanced Reusable Bags Incentive and Awareness Program vs Enhanced Transition Support for Retailers to Sustainable Packaging
+    Winner: Enhanced Transition Support for Retailers to Sustainable Packaging
+    Comparison: Incentivize Reusable Bags Program vs Comprehensive Sustainable Shopping Initiative
+    Winner: Comprehensive Sustainable Shopping Initiative
+    Comparison: Incentivize Reusable Bags Program vs Comprehensive Sustainable Shopping Initiative
+    Winner: Comprehensive Sustainable Shopping Initiative
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+  Tournament round 4/5
+    Comparison: Incentivize Reusable Bags Program vs Enhanced Transition Support for Retailers to Sustainable Packaging
+    Winner: Enhanced Transition Support for Retailers to Sustainable Packaging
+    Comparison: Incentivize Reusable Bags Program vs Enhanced Transition Support for Retailers to Sustainable Packaging
+    Winner: Enhanced Transition Support for Retailers to Sustainable Packaging
+    Comparison: Comprehensive Sustainable Shopping Initiative vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Comprehensive Sustainable Shopping Initiative vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Enhanced Reusable Bags Incentive and Awareness Program
+    Winner: Enhanced Reusable Bags Incentive and Awareness Program
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Enhanced Reusable Bags Incentive and Awareness Program
+    Winner: Enhanced Reusable Bags Incentive and Awareness Program
+  Tournament round 5/5
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Comprehensive Transition Support for Retailers to Sustainable Packaging vs Transition Support for Retailers to Biodegradable Alternatives
+    Winner: Transition Support for Retailers to Biodegradable Alternatives
+    Comparison: Enhanced Transition Support for Retailers to Sustainable Packaging vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+    Comparison: Enhanced Transition Support for Retailers to Sustainable Packaging vs Incentivize Reusable Bags Program
+    Winner: Incentivize Reusable Bags Program
+    Comparison: Enhanced Reusable Bags Incentive and Awareness Program vs Comprehensive Sustainable Shopping Initiative
+    Winner: Comprehensive Sustainable Shopping Initiative
+    Comparison: Enhanced Reusable Bags Incentive and Awareness Program vs Comprehensive Sustainable Shopping Initiative
+    Winner: Comprehensive Sustainable Shopping Initiative
+
+Current Policy Proposal Rankings:
+1. Transition Support for Retailers to Biodegradable Alternatives (Elo: 1239.6)
+2. Comprehensive Sustainable Shopping Initiative (Elo: 1216.5)
+3. Incentivize Reusable Bags Program (Elo: 1207.7)
+4. Enhanced Reusable Bags Incentive and Awareness Program (Elo: 1188.2)
+5. Enhanced Transition Support for Retailers to Sustainable Packaging (Elo: 1184.4)
+6. Comprehensive Transition Support for Retailers to Sustainable Packaging (Elo: 1163.6)
+
+
+--- Creating Final Policy Report ---
+
+Final policy report created
+
+Evolution report saved to: bag_ban
+
+Policy Evolution completed successfully!
+
+Thank you for using CivicAide Policy Analysis System!
+
+C:\Users\dusti\OneDrive\Documents\Projects\openai-agents-python\src\civicaide>
