@@ -6,19 +6,22 @@ import os
 from datetime import datetime
 import plotly.express as px
 
-# Set page config
-st.set_page_config(
-    page_title="PolicyAide - Official Profile",
-    page_icon="🏛️",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# Only set page config if not running from app.py
+if os.environ.get("STREAMLIT_RUN_VIA_APP") != "true":
+    # Set page config
+    st.set_page_config(
+        page_title="PolicyAide - Official Profile",
+        page_icon="🏛️",
+        layout="wide",
+        initial_sidebar_state="expanded"
+    )
 
 # Custom CSS
 st.markdown("""
 <style>
     .main .block-container {
         padding-top: 2rem;
+        max-width: 95% !important;
     }
     .profile-header {
         background-color: #f8f9fa;
@@ -56,6 +59,14 @@ st.markdown("""
     }
     .info-section {
         margin-bottom: 2rem;
+    }
+    /* Ensure content stretches to full width */
+    .css-1d391kg, .css-1r6slb0, .element-container, .stMarkdown {
+        width: 100% !important;
+    }
+    /* Make plotly charts use full width properly */
+    .js-plotly-plot, .plotly, .plot-container {
+        width: 100% !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -311,6 +322,9 @@ def save_profile_data(profile_data):
 
 # Main profile page
 def main():
+    # Debug info
+    st.sidebar.success("Profile page loaded successfully!")
+    
     # Check if profile is already created and load it
     if 'profile_data' in st.session_state and 'profile_created' in st.session_state and st.session_state.profile_created:
         display_completed_profile(st.session_state.profile_data)

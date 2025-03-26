@@ -1,0 +1,30 @@
+{
+  "query": "Test query",
+  "trace_id": "test_trace_a5916dd3",
+  "policy_type": "test",
+  "timestamp": "20250324_170102",
+  "spans": [
+    {
+      "span_id": "span_1",
+      "trace_id": "test_trace_a5916dd3",
+      "parent_id": null,
+      "span_type": "agent_interaction",
+      "started_at": "2025-03-24T17:01:02.156060",
+      "ended_at": "2025-03-24T17:01:02.156060",
+      "details": {
+        "agent_name": "Test Agent",
+        "message": "Test Agent processed request"
+      },
+      "content": {
+        "input": "Test input",
+        "output": "Test output",
+        "model": "Test model",
+        "tokens_used": null
+      },
+      "duration_ms": 0.0
+    }
+  ],
+  "openai_trace_id": null,
+  "agent_count": 1,
+  "total_duration_ms": 0.0
+}

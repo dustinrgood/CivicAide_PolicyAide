@@ -5,6 +5,8 @@ import sys
 from dotenv import load_dotenv
 from pathlib import Path
 from openai import AsyncOpenAI
+import streamlit as st
+from datetime import datetime
 
 # Add the parent directory to sys.path to make agents importable
 # when running the script directly
@@ -25,7 +27,8 @@ if "OPENAI_API_KEY" not in os.environ and os.path.exists(dotenv_path):
                 print("API key loaded from local.env")
                 break
 
-from agents import Agent, Runner
+from agents import Agent, Runner, trace, gen_trace_id
+from src.civicaide.trace_manager import get_trace_processor
 
 # Print debug info to verify API key is set
 has_key = "OPENAI_API_KEY" in os.environ
@@ -81,93 +84,149 @@ policy_meta_review_agent = Agent(
 )
 
 async def run_policy_analysis(query: str) -> str:
-    # STEP 1: Generate initial policy proposals.
-    gen_result = await Runner.run(policy_generation_agent, input=query)
-    gen_output = gen_result.final_output.strip()
-    
-    # Remove markdown code block markers if present
-    if gen_output.startswith("```") and "```" in gen_output[3:]:
-        # Extract content between markdown markers
-        gen_output = gen_output.split("```", 2)[1]
-        if gen_output.startswith("json"):
-            gen_output = gen_output[4:].strip()  # Remove "json" and any leading whitespace
-        else:
-            gen_output = gen_output.strip()
+    # Add this at the beginning to create a trace
+    trace_id = gen_trace_id()
+    with trace("Policy Analysis Process", trace_id=trace_id):
+        # STEP 1: Generate initial policy proposals.
+        gen_result = await Runner.run(policy_generation_agent, input=query)
+        gen_output = gen_result.final_output.strip()
+        
+        # Remove markdown code block markers if present
+        if gen_output.startswith("```") and "```" in gen_output[3:]:
+            # Extract content between markdown markers
+            gen_output = gen_output.split("```", 2)[1]
+            if gen_output.startswith("json"):
+                gen_output = gen_output[4:].strip()  # Remove "json" and any leading whitespace
+            else:
+                gen_output = gen_output.strip()
 
-    try:
-        proposals = json.loads(gen_output)
-    except Exception as e:
-        raise ValueError(f"Failed to parse policy generation output as JSON: {e}\nOutput was: {gen_output}")
+        try:
+            proposals = json.loads(gen_output)
+        except Exception as e:
+            raise ValueError(f"Failed to parse policy generation output as JSON: {e}\nOutput was: {gen_output}")
 
-    # STEP 2: Evaluate and rank proposals.
-    eval_input = json.dumps(proposals, indent=2)
-    eval_result = await Runner.run(policy_evaluation_agent, input=eval_input)
-    eval_output = eval_result.final_output.strip()
-    
-    # Remove markdown code block markers if present
-    if eval_output.startswith("```") and "```" in eval_output[3:]:
-        # Extract content between markdown markers
-        eval_output = eval_output.split("```", 2)[1]
-        if eval_output.startswith("json"):
-            eval_output = eval_output[4:].strip()  # Remove "json" and any leading whitespace
-        else:
-            eval_output = eval_output.strip()
+        # STEP 2: Evaluate and rank proposals.
+        eval_input = json.dumps(proposals, indent=2)
+        eval_result = await Runner.run(policy_evaluation_agent, input=eval_input)
+        eval_output = eval_result.final_output.strip()
+        
+        # Remove markdown code block markers if present
+        if eval_output.startswith("```") and "```" in eval_output[3:]:
+            # Extract content between markdown markers
+            eval_output = eval_output.split("```", 2)[1]
+            if eval_output.startswith("json"):
+                eval_output = eval_output[4:].strip()  # Remove "json" and any leading whitespace
+            else:
+                eval_output = eval_output.strip()
 
-    try:
-        evaluated_proposals = json.loads(eval_output)
-    except Exception as e:
-        raise ValueError(f"Failed to parse policy evaluation output as JSON: {e}\nOutput was: {eval_output}")
+        try:
+            evaluated_proposals = json.loads(eval_output)
+        except Exception as e:
+            raise ValueError(f"Failed to parse policy evaluation output as JSON: {e}\nOutput was: {eval_output}")
 
-    # STEP 2.5: Use the Policy Judge Agent to select the best proposal.
-    judge_input = json.dumps(evaluated_proposals, indent=2)
-    judge_result = await Runner.run(policy_judge_agent, input=judge_input)
-    judge_output = judge_result.final_output.strip()
-    
-    # Remove markdown code block markers if present
-    if judge_output.startswith("```") and "```" in judge_output[3:]:
-        # Extract content between markdown markers
-        judge_output = judge_output.split("```", 2)[1]
-        if judge_output.startswith("json"):
-            judge_output = judge_output[4:].strip()  # Remove "json" and any leading whitespace
-        else:
-            judge_output = judge_output.strip()
+        # STEP 2.5: Use the Policy Judge Agent to select the best proposal.
+        judge_input = json.dumps(evaluated_proposals, indent=2)
+        judge_result = await Runner.run(policy_judge_agent, input=judge_input)
+        judge_output = judge_result.final_output.strip()
+        
+        # Remove markdown code block markers if present
+        if judge_output.startswith("```") and "```" in judge_output[3:]:
+            # Extract content between markdown markers
+            judge_output = judge_output.split("```", 2)[1]
+            if judge_output.startswith("json"):
+                judge_output = judge_output[4:].strip()  # Remove "json" and any leading whitespace
+            else:
+                judge_output = judge_output.strip()
 
-    try:
-        judged_proposal = json.loads(judge_output)
-    except Exception as e:
-        raise ValueError(f"Failed to parse judged proposal output as JSON: {e}\nOutput was: {judge_output}")
+        try:
+            judged_proposal = json.loads(judge_output)
+        except Exception as e:
+            raise ValueError(f"Failed to parse judged proposal output as JSON: {e}\nOutput was: {judge_output}")
 
-    # STEP 3: Refine the selected proposal from the judge.
-    refinement_input = json.dumps(judged_proposal, indent=2)
-    refinement_result = await Runner.run(policy_refinement_agent, input=refinement_input)
-    refinement_output = refinement_result.final_output.strip()
-    
-    # Remove markdown code block markers if present
-    if refinement_output.startswith("```") and "```" in refinement_output[3:]:
-        # Extract content between markdown markers
-        refinement_output = refinement_output.split("```", 2)[1]
-        if refinement_output.startswith("json"):
-            refinement_output = refinement_output[4:].strip()  # Remove "json" and any leading whitespace
-        else:
-            refinement_output = refinement_output.strip()
+        # STEP 3: Refine the selected proposal from the judge.
+        refinement_input = json.dumps(judged_proposal, indent=2)
+        refinement_result = await Runner.run(policy_refinement_agent, input=refinement_input)
+        refinement_output = refinement_result.final_output.strip()
+        
+        # Remove markdown code block markers if present
+        if refinement_output.startswith("```") and "```" in refinement_output[3:]:
+            # Extract content between markdown markers
+            refinement_output = refinement_output.split("```", 2)[1]
+            if refinement_output.startswith("json"):
+                refinement_output = refinement_output[4:].strip()  # Remove "json" and any leading whitespace
+            else:
+                refinement_output = refinement_output.strip()
 
-    try:
-        refined_proposal = json.loads(refinement_output)
-    except Exception as e:
-        raise ValueError(f"Failed to parse refined proposal output as JSON: {e}\nOutput was: {refinement_output}")
+        try:
+            refined_proposal = json.loads(refinement_output)
+        except Exception as e:
+            raise ValueError(f"Failed to parse refined proposal output as JSON: {e}\nOutput was: {refinement_output}")
 
-    # STEP 4: Meta-review to create the final report.
-    meta_input = (
-        f"Policy Query: {query}\n\nRefined Policy Proposal:\n"
-        f"Title: {refined_proposal.get('title', 'N/A')}\n"
-        f"Description: {refined_proposal.get('description', 'N/A')}\n"
-    )
-    meta_result = await Runner.run(policy_meta_review_agent, input=meta_input)
-    final_report = meta_result.final_output.strip()
-    return final_report
+        # STEP 4: Meta-review to create the final report.
+        meta_input = (
+            f"Policy Query: {query}\n\nRefined Policy Proposal:\n"
+            f"Title: {refined_proposal.get('title', 'N/A')}\n"
+            f"Description: {refined_proposal.get('description', 'N/A')}\n"
+        )
+        meta_result = await Runner.run(policy_meta_review_agent, input=meta_input)
+        final_report = meta_result.final_output.strip()
+        
+        # Save the trace data
+        trace_processor = get_trace_processor()
+        trace_file = trace_processor.save_trace_to_file_and_db(query, "analysis")
+        if trace_file:
+            print(f"Trace data saved to: {trace_file}")
+        
+        return final_report
 
 if __name__ == "__main__":
     query = input("Enter local government policy query: ")
     report = asyncio.run(run_policy_analysis(query))
     print("\nFinal Policy Analysis Report:\n")
-    print(report) 
+    print(report)
+
+def main():
+    """Main function for the policy analysis page when run from the app."""
+    st.title("Policy Analysis")
+    
+    st.write("""
+    Create a comprehensive analysis of a local government policy question.
+    The analysis will include research, multiple policy options, impact assessment, and implementation steps.
+    """)
+    
+    query = st.text_area("Enter your policy question:", placeholder="Example: How can our city implement a ban on single-use plastic bags?")
+    
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        if st.button("Generate Policy Analysis"):
+            if query:
+                with st.spinner("Generating comprehensive policy analysis..."):
+                    try:
+                        report = asyncio.run(run_policy_analysis(query))
+                        st.session_state.analysis_report = report
+                        st.success("Policy analysis complete!")
+                    except Exception as e:
+                        st.error(f"Error generating policy analysis: {str(e)}")
+            else:
+                st.warning("Please enter a policy question.")
+                
+    with col2:
+        st.markdown("""
+        #### Analysis includes:
+        - Policy options
+        - Impact analysis
+        - Stakeholder effects
+        - Implementation plan
+        """)
+    
+    # Show results if available
+    if 'analysis_report' in st.session_state:
+        st.subheader("Policy Analysis Results")
+        st.markdown(st.session_state.analysis_report)
+        
+        if st.button("Save to Dashboard"):
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"policy_analysis_{timestamp}.md"
+            with open(filename, "w") as f:
+                f.write(st.session_state.analysis_report)
+            st.success(f"Policy analysis saved to {filename}. View it in the Policy Dashboard.") 

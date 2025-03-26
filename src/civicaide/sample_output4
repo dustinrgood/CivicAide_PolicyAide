@@ -1,0 +1,409 @@
+============================================================
+       CivicAide Policy Analysis System
+============================================================
+
+An AI-powered multi-agent system for local government policy analysis.
+Combining policy research and analysis capabilities.
+
+Available components:
+1. Full Integrated Policy System (research + analysis)
+2. Policy Research Only
+3. Policy Analysis Only
+4. Context-Aware Policy Evolution System (with local context and web research)
+
+Enter your choice (1-4): 4
+
+Enter your policy question or topic: Ban on single use plastic bags
+Save report to file? (y/n): y
+Enter filename (default: context_aware_policy_20250324_140854.md): bag_ban77
+
+Running Context-Aware Policy Evolution System...
+
+This system will gather local context information and conduct web research
+to create policy proposals tailored to your specific jurisdiction.
+Generating local trace ID: trace_ee54812bcc9748f2a23f7d48
+
+============================================================
+CivicAide Policy Evolution System - Mimicking Google's AI Co-Scientist
+============================================================
+
+Policy Query: Ban on single use plastic bags
+
+Trace ID: trace_65e22f51dc0e4113a51332c5a6a7535f
+
+--- Gathering Local Context ---
+
+I'll help you design an effective policy approach for: 'Ban on single use plastic bags'
+
+To customize this for your specific jurisdiction, I need to understand your local context.
+Please answer the following questions to help me provide more relevant policy recommendations:
+
+1. What type of jurisdiction are you in (city, county, etc.) and what's the approximate population?
+2. What are the major industries or economic drivers in your area?
+3. Do you have any existing policies related to this topic?
+4. Are there specific political considerations or constraints to be aware of?
+5. What budget limitations should be considered for implementation?
+6. Are there any unique local challenges or opportunities related to this policy area?
+7. Who are the key stakeholders that would be affected by this policy?
+8. What key demographic factors are important (e.g., median age, income distribution)?
+9. Have similar policies been attempted locally before?
+10. Where are you in the budget cycle?
+11. Are there any upcoming elections to consider?
+Jurisdiction type and population: elgin illinois 115000 people
+Major industries/economic drivers: education, healthcare, government
+Existing related policies: none
+Political considerations/constraints: none
+Budget limitations: $25000
+Unique local challenges/opportunities: we have a big arts community that could help us design resuable bags for a proactive campaign
+Key stakeholders: city, residents, environment, businesses
+Key demographic factors: we are a minority majority community
+Have similar policies been attempted locally before? Details: a bag fee was introduced in 2023 but was tabled
+Where are you in the budget cycle? Q1
+Upcoming election considerations: Next week on April 1st 2025
+Would you like to provide detailed stakeholder influence information? (yes/no): no
+
+Collected context information:
+- Jurisdiction Type: elgin illinois 115000 people
+- Population Size: 115000
+- Economic Context: education, healthcare, government
+- Existing Policies: none
+- Political Landscape: none
+- Budget Constraints: $25000
+- Local Challenges: we have a big arts community that could help us design resuable bags for a proactive campaign
+- Key Stakeholders: city, residents, environment, businesses
+- Demographic Profile: we are a minority majority community
+- Prior Attempts: a bag fee was introduced in 2023 but was tabled
+- Budget Cycle: Q1
+- Election Timeline: Next week on April 1st 2025
+- Contextual Notes: None
+
+Local context information gathered successfully.
+
+[DEBUG] Local context object attributes:
+  jurisdiction_type: elgin illinois 115000 people
+  population_size: 115000
+  economic_context: education, healthcare, government
+  existing_policies: none
+  political_landscape: none
+  budget_constraints: $25000
+  local_challenges: we have a big arts community that could help us design resuable bags for a proactive campaign
+  key_stakeholders: city, residents, environment, businesses
+  demographic_profile: we are a minority majority community
+  prior_attempts: a bag fee was introduced in 2023 but was tabled
+  budget_cycle: Q1
+  election_timeline: Next week on April 1st 2025
+  contextual_notes: None
+
+--- Conducting Web Research ---
+
+Generated research plan with 5 search queries.
+Executing web searches...
+  Search 1/5: Ban on single use plastic bags successful implementations
+  Search 2/5: Ban on single use plastic bags ordinance example elgin illinois 115000 people
+  Search 3/5: Ban on single use plastic bags economic impact education, healthcare, government
+  Search 4/5: Ban on single use plastic bags stakeholder response city, residents, environment, businesses
+  Search 5/5: Ban on single use plastic bags implementation challenges
+Web research completed. Synthesizing findings...
+
+--- Generation 1 ---
+
+Generating initial policy proposals...
+
+[DEBUG] Policy generation prompt (first 500 chars):
+Policy Query: Ban on single use plastic bags
+
+LOCAL CONTEXT (IMPORTANT - CUSTOMIZE PROPOSALS FOR THIS SPECIFIC CONTEXT):
+- Jurisdiction: elgin illinois 115000 people (Population: 115000)
+- Economic Context: education, healthcare, government
+- Existing Policies: none
+- Political Landscape: none
+- Budget Constraints: $25000
+- Local Challenges: we have a big arts community that could help us design resuable bags for a proactive campaign
+- Key Stakeholders: city, residents, environment, businesses
+-...
+
+Generated 3 initial policy proposals
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Plastic-Free Schools Initiative vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Plastic-Free Schools Initiative vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+  Tournament round 2/5
+    Comparison: Elgin Bag Art Initiative: Community-Designed Reusable Bags vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Elgin Bag Art Initiative: Community-Designed Reusable Bags vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+  Tournament round 3/5
+    Comparison: Plastic-Free Schools Initiative vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Plastic-Free Schools Initiative vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+  Tournament round 4/5
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+  Tournament round 5/5
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Plastic-Free Schools Initiative
+    Winner: Plastic-Free Schools Initiative
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Plastic-Free Schools Initiative
+    Winner: Plastic-Free Schools Initiative
+
+Current Policy Proposal Rankings:
+1. Green Bag Credits: Incentivizing Reusable Bag Usage (Elo: 1207.8)
+2. Elgin Bag Art Initiative: Community-Designed Reusable Bags (Elo: 1203.5)
+3. Plastic-Free Schools Initiative (Elo: 1188.7)
+
+
+--- Generation 2 ---
+
+
+--- Evolving Top Policies ---
+
+  Evolved: Green Bag Credits: Incentivizing Reusable Bag Usage -> Green Bag Rewards: Enhancing Reusable Bag Incentives
+  Improvements: 1. Expand rewards to include donations to environmental initiatives, increasing community impact.
+2....
+  Evolved: Elgin Bag Art Initiative: Community-Designed Reusable Bags -> Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+  Improvements: 1. Expanded the scope to include annual competitions to ensure ongoing engagement and variety.
+2. In...
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+  Tournament round 2/5
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Plastic-Free Schools Initiative
+    Winner: Plastic-Free Schools Initiative
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Plastic-Free Schools Initiative
+    Winner: Plastic-Free Schools Initiative
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+  Tournament round 3/5
+    Comparison: Elgin Bag Art Initiative: Community-Designed Reusable Bags vs Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Winner: Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Comparison: Elgin Bag Art Initiative: Community-Designed Reusable Bags vs Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Winner: Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+  Tournament round 4/5
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+  Tournament round 5/5
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Elgin Bag Art Initiative: Community-Designed Reusable Bags vs Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Comparison: Elgin Bag Art Initiative: Community-Designed Reusable Bags vs Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+
+Current Policy Proposal Rankings:
+1. Green Bag Credits: Incentivizing Reusable Bag Usage (Elo: 1226.0)
+2. Elgin Art and Sustainability Initiative: Cultural Reusable Bags (Elo: 1212.8)
+3. Plastic-Free Schools Initiative (Elo: 1204.5)
+4. Elgin Bag Art Initiative: Community-Designed Reusable Bags (Elo: 1199.4)
+5. Green Bag Rewards: Enhancing Reusable Bag Incentives (Elo: 1157.2)
+
+
+--- Generation 3 ---
+
+
+--- Evolving Top Policies ---
+
+  Evolved: Green Bag Credits: Incentivizing Reusable Bag Usage -> Enhanced Green Bag Reward Program
+  Improvements: 1. Introduce a tiered reward system offering larger incentives for consistent use, motivating long-t...
+  Evolved: Elgin Art and Sustainability Initiative: Cultural Reusable Bags -> Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+  Improvements: 1. Added a return-and-reward program to incentivize the reuse of bags.
+2. Included non-toxic dye use...
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Enhanced Green Bag Reward Program
+    Winner: Enhanced Green Bag Reward Program
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Enhanced Green Bag Reward Program
+    Winner: Enhanced Green Bag Reward Program
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+  Tournament round 2/5
+    Comparison: Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Winner: Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Winner: Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Comparison: Enhanced Green Bag Reward Program vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Comparison: Enhanced Green Bag Reward Program vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+  Tournament round 3/5
+    Comparison: Enhanced Green Bag Reward Program vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Comparison: Enhanced Green Bag Reward Program vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Winner: Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Winner: Green Bag Rewards: Enhancing Reusable Bag Incentives
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+    Comparison: Green Bag Credits: Incentivizing Reusable Bag Usage vs Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+  Tournament round 4/5
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Green Bag Rewards: Enhancing Reusable Bag Incentives vs Green Bag Credits: Incentivizing Reusable Bag Usage
+    Winner: Green Bag Credits: Incentivizing Reusable Bag Usage
+    Comparison: Enhanced Green Bag Reward Program vs Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Comparison: Enhanced Green Bag Reward Program vs Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Cultural Reusable Bags
+    Comparison: Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Comparison: Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags vs Elgin Bag Art Initiative: Community-Designed Reusable Bags
+    Winner: Elgin Bag Art Initiative: Community-Designed Reusable Bags
+  Tournament round 5/5
+    Comparison: Elgin Bag Art Initiative: Community-Designed Reusable Bags vs Enhanced Green Bag Reward Program
+    Winner: Enhanced Green Bag Reward Program
+    Comparison: Elgin Bag Art Initiative: Community-Designed Reusable Bags vs Enhanced Green Bag Reward Program
+    Winner: Enhanced Green Bag Reward Program
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+    Comparison: Elgin Art and Sustainability Initiative: Cultural Reusable Bags vs Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+    Winner: Elgin Art and Sustainability Initiative: Culturally Resilient Reusable Bags
+Error getting response: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}. (request_id: req_3a4a0f5ea0630aaf322f5ba59664a694)
+Traceback (most recent call last):
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\run_policy_system.py", line 498, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\run_policy_system.py", line 495, in main
+    asyncio.run(main_async())
+    ~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python313\Lib\asyncio\base_events.py", line 720, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\run_policy_system.py", line 417, in main_async
+    report, trace_file = await run_with_tracing(query, "evolution", run_policy_evolution)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\run_policy_system.py", line 136, in run_with_tracing
+    result = await run_function(policy_query, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\policy_evolution.py", line 1236, in run_policy_evolution
+    return await manager.run(query)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\policy_evolution.py", line 564, in run
+    await self._run_tournament()
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\policy_evolution.py", line 973, in _run_tournament
+    winner_id = await self._compare_proposals(proposal_a_id, proposal_b_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\policy_evolution.py", line 999, in _compare_proposals
+    result = await Runner.run(comparison_agent, comparison_prompt)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\agents\run.py", line 210, in run
+    input_guardrail_results, turn_result = await asyncio.gather(
+                                           ^^^^^^^^^^^^^^^^^^^^^
+    ...<16 lines>...
+    )
+    ^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\agents\run.py", line 719, in _run_single_turn
+    new_response = await cls._get_new_response(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\agents\run.py", line 862, in _get_new_response
+    new_response = await model.get_response(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\agents\models\openai_responses.py", line 75, in get_response
+    response = await self._fetch_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\agents\models\openai_responses.py", line 230, in _fetch_response
+    return await self._client.responses.create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+    )
+    ^
+  File "C:\Users\dusti\AppData\Roaming\Python\Python313\site-packages\openai\resources\responses\responses.py", line 1414, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+    ...<30 lines>...
+    )
+    ^
+  File "C:\Users\dusti\AppData\Roaming\Python\Python313\site-packages\openai\_base_client.py", line 1767, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dusti\AppData\Roaming\Python\Python313\site-packages\openai\_base_client.py", line 1461, in request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\dusti\AppData\Roaming\Python\Python313\site-packages\openai\_base_client.py", line 1547, in _request
+    return await self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\dusti\AppData\Roaming\Python\Python313\site-packages\openai\_base_client.py", line 1594, in _retry_request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\dusti\AppData\Roaming\Python\Python313\site-packages\openai\_base_client.py", line 1547, in _request
+    return await self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\dusti\AppData\Roaming\Python\Python313\site-packages\openai\_base_client.py", line 1594, in _retry_request
+    return await self._request(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\dusti\AppData\Roaming\Python\Python313\site-packages\openai\_base_client.py", line 1562, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+PS C:\Users\dusti\CivicAide_PolicyAide\src\civicaide>

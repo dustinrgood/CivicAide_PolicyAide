@@ -1,0 +1,142 @@
+{
+  "query": "Homelessness Policy Analysis",
+  "trace_id": "trace_0332c4cd6cc34962",
+  "policy_type": "verification_test",
+  "timestamp": "20250324_180201",
+  "spans": [
+    {
+      "span_id": "span_1",
+      "trace_id": "trace_0332c4cd6cc34962",
+      "parent_id": null,
+      "span_type": "policy_comparison",
+      "started_at": "2025-03-24T18:02:01.835334",
+      "ended_at": "2025-03-24T18:02:01.835334",
+      "details": {
+        "agent_name": "Policy Comparison Manager",
+        "message": "Policy Comparison Manager processed request",
+        "tokens_used": {
+          "prompt_tokens": 100,
+          "completion_tokens": 50,
+          "total_tokens": 150
+        }
+      },
+      "content": {
+        "input": "Compare policy proposals for addressing homelessness",
+        "output": "Starting policy comparison tournament",
+        "model": "gpt-4-turbo",
+        "tokens_used": {
+          "prompt_tokens": 100,
+          "completion_tokens": 50,
+          "total_tokens": 150
+        },
+        "openai_response_id": "resp_367b535a5c27463d"
+      },
+      "duration_ms": 0.0
+    },
+    {
+      "span_id": "span_2",
+      "trace_id": "trace_0332c4cd6cc34962",
+      "parent_id": "span_1",
+      "span_type": "proposal_evaluation",
+      "started_at": "2025-03-24T18:02:01.835650",
+      "ended_at": "2025-03-24T18:02:01.835650",
+      "details": {
+        "agent_name": "Policy Evaluator",
+        "message": "Policy Evaluator processed request",
+        "tokens_used": {
+          "prompt_tokens": 150,
+          "completion_tokens": 200,
+          "total_tokens": 350
+        }
+      },
+      "content": {
+        "input": "Evaluate proposal 1: Housing First approach",
+        "output": "Housing First shows strong evidence of effectiveness with 70% retention rates",
+        "model": "gpt-4-turbo",
+        "tokens_used": {
+          "prompt_tokens": 150,
+          "completion_tokens": 200,
+          "total_tokens": 350
+        },
+        "openai_response_id": "resp_2f81d15c65c14413"
+      },
+      "duration_ms": 0.0
+    },
+    {
+      "span_id": "span_3",
+      "trace_id": "trace_0332c4cd6cc34962",
+      "parent_id": "span_1",
+      "span_type": "proposal_evaluation",
+      "started_at": "2025-03-24T18:02:01.835901",
+      "ended_at": "2025-03-24T18:02:01.835901",
+      "details": {
+        "agent_name": "Policy Evaluator",
+        "message": "Policy Evaluator processed request",
+        "tokens_used": {
+          "prompt_tokens": 130,
+          "completion_tokens": 180,
+          "total_tokens": 310
+        }
+      },
+      "content": {
+        "input": "Evaluate proposal 2: Shelter expansion program",
+        "output": "Shelter expansion shows mixed results with high recidivism in some studies",
+        "model": "gpt-4-turbo",
+        "tokens_used": {
+          "prompt_tokens": 130,
+          "completion_tokens": 180,
+          "total_tokens": 310
+        },
+        "openai_response_id": "resp_2ad1d1df67624f99"
+      },
+      "duration_ms": 0.0
+    },
+    {
+      "span_id": "span_4",
+      "trace_id": "trace_0332c4cd6cc34962",
+      "parent_id": "span_1",
+      "span_type": "head_to_head_comparison",
+      "started_at": "2025-03-24T18:02:01.836139",
+      "ended_at": "2025-03-24T18:02:01.836139",
+      "details": {
+        "agent_name": "Policy Comparison Judge",
+        "message": "Policy Comparison Judge processed request",
+        "tokens_used": 500
+      },
+      "content": {
+        "input": "Compare Housing First vs Shelter Expansion programs based on evidence",
+        "output": "Housing First approach is superior based on outcomes and cost-effectiveness",
+        "model": "gpt-4-turbo",
+        "tokens_used": {
+          "total_tokens": 500
+        },
+        "openai_response_id": "resp_42399163b6fc492d"
+      },
+      "duration_ms": 0.0
+    },
+    {
+      "span_id": "span_5",
+      "trace_id": "trace_0332c4cd6cc34962",
+      "parent_id": "span_4",
+      "span_type": "policy_recommendation",
+      "started_at": "2025-03-24T18:02:01.836336",
+      "ended_at": "2025-03-24T18:02:01.836336",
+      "details": {
+        "agent_name": "Policy Recommendation Agent",
+        "message": "Policy Recommendation Agent processed request",
+        "tokens_used": "450"
+      },
+      "content": {
+        "input": "Generate final recommendation based on comparison results",
+        "output": "The Housing First approach is recommended as the primary policy intervention",
+        "model": "gpt-4-turbo",
+        "tokens_used": 450,
+        "openai_response_id": "resp_828e0166381e4c95"
+      },
+      "duration_ms": 0.0
+    }
+  ],
+  "openai_trace_id": null,
+  "agent_count": 4,
+  "total_duration_ms": 0.0
+}

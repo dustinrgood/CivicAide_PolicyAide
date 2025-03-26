@@ -8,12 +8,14 @@ from pathlib import Path
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 import time
+import streamlit as st
 
 # Add the parent directory to sys.path to make agents importable
 # when running the script directly
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from agents import Agent, Runner, WebSearchTool, trace, gen_trace_id, custom_span
+from src.civicaide.trace_manager import get_trace_processor
 
 # Load environment variables
 dotenv_path = Path(__file__).parent / "local.env"
@@ -114,6 +116,12 @@ class PolicyResearchManager:
             print("\nResearch Summary:\n")
             print(research_data.short_summary)
             
+            # Save the trace data
+            trace_processor = get_trace_processor()
+            trace_file = trace_processor.save_trace_to_file_and_db(query, "research")
+            if trace_file:
+                print(f"Trace data saved to: {trace_file}")
+            
             return research_data
     
     async def _plan_searches(self, query: str) -> PolicySearchPlan:
@@ -176,12 +184,55 @@ if __name__ == "__main__":
     research_data = asyncio.run(run_policy_research(policy_query))
     
     print("\n=== POLICY RESEARCH RESULTS ===\n")
-    print(f"Summary: {research_data.short_summary}\n")
-    
-    print("Key Data Points:")
-    for point in research_data.key_data_points:
-        print(f"- {point}")
-    
+    print(f"Summary: {research_data.short_summary}")
+    print("\nKey Data Points:")
+    for i, point in enumerate(research_data.key_data_points, 1):
+        print(f"{i}. {point}")
     print("\nCase Studies:")
-    for case in research_data.case_studies:
-        print(f"- {case}") 
+    for i, case in enumerate(research_data.case_studies, 1):
+        print(f"{i}. {case}")
+
+def main():
+    """Main function for the policy research page when run from the app."""
+    st.title("Policy Research")
+    
+    st.write("""
+    Research a policy topic to gather evidence, precedents, and best practices.
+    This tool will search for relevant information and organize it for your use in policy analysis.
+    """)
+    
+    query = st.text_input("Enter a policy research query:", placeholder="Example: Alternatives to plastic bag bans")
+    
+    if st.button("Run Research"):
+        if query:
+            with st.spinner("Researching policy information..."):
+                try:
+                    research_data = asyncio.run(run_policy_research(query))
+                    st.session_state.research_results = research_data
+                except Exception as e:
+                    st.error(f"Error during policy research: {str(e)}")
+        else:
+            st.warning("Please enter a research query.")
+    
+    # Display research results if available
+    if 'research_results' in st.session_state:
+        data = st.session_state.research_results
+        
+        st.subheader("Research Results")
+        st.markdown(f"**Summary:** {data.short_summary}")
+        
+        st.subheader("Key Data Points")
+        for point in data.key_data_points:
+            st.markdown(f"- {point}")
+        
+        st.subheader("Case Studies")
+        for i, case in enumerate(data.case_studies, 1):
+            with st.expander(f"Case Study {i}"):
+                st.write(case)
+        
+        # Option to use this research in policy analysis
+        if st.button("Use for Policy Analysis"):
+            # Store in session state for use in policy analysis
+            st.session_state.active_research = data
+            # Redirect to policy analysis page
+            st.success("Research data ready for use in Policy Analysis. Navigate to the Policy Analysis page to continue.") 

@@ -5,6 +5,10 @@ python-dotenv>=1.0.0  # For environment variable management
 requests>=2.31.0      # For web API requests
 pydantic>=2.0.0       # For data validation
 pydantic-core>=2.0.0  # Required by pydantic
+streamlit>=1.28.0     # For dashboard UI
+plotly>=5.18.0        # For visualizations
+pandas>=2.0.0         # For data processing
+networkx>=3.0         # For network graph visualization
 
 # Optional but recommended for enhanced functionality
 # serpapi>=0.1.0  # Uncomment to use SERP API for enhanced web searches 

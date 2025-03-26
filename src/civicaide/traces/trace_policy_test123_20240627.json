@@ -1,0 +1,64 @@
+{
+  "id": "trace_policy_test123_20240627",
+  "workflow_name": "Policy Analysis Workflow",
+  "created_at": "2024-06-27T15:30:00Z",
+  "spans": [
+    {
+      "id": "span_1",
+      "name": "Policy Analysis Agent",
+      "type": "agent.planning",
+      "status": "success",
+      "parent_id": null,
+      "started_at": "2024-06-27T15:30:00Z",
+      "ended_at": "2024-06-27T15:31:00Z",
+      "duration_ms": 60000,
+      "input": {
+        "query": "Should cities implement a 4-day work week?"
+      },
+      "output": {
+        "plan": "Research economic impacts and quality of life considerations for 4-day work weeks in municipal employees."
+      }
+    },
+    {
+      "id": "span_2",
+      "name": "Research Agent",
+      "type": "agent.research",
+      "status": "success",
+      "parent_id": "span_1",
+      "started_at": "2024-06-27T15:31:00Z",
+      "ended_at": "2024-06-27T15:33:00Z",
+      "duration_ms": 120000,
+      "input": {
+        "query": "Economic impacts of 4-day work week on city governments"
+      },
+      "output": {
+        "findings": "Studies show potential reduction in overhead costs, but concerns about service availability."
+      }
+    },
+    {
+      "id": "span_3",
+      "name": "Policy Generation Agent",
+      "type": "agent.policy",
+      "status": "success",
+      "parent_id": "span_1",
+      "started_at": "2024-06-27T15:33:00Z",
+      "ended_at": "2024-06-27T15:35:00Z",
+      "duration_ms": 120000,
+      "input": {
+        "research": "Economic and quality of life impacts research"
+      },
+      "output": {
+        "policy_proposals": [
+          {
+            "title": "Phased Implementation of 4-Day Work Week",
+            "description": "Start with pilot departments to measure impact before citywide rollout"
+          },
+          {
+            "title": "Staggered Schedules",
+            "description": "Implement staggered 4-day schedules to maintain 5-day service availability"
+          }
+        ]
+      }
+    }
+  ]
+} 

@@ -1,0 +1,35 @@
+{
+  "query": "Supabase Integration Test",
+  "trace_id": "trace_25671fa8b1b54ecb96674e61",
+  "policy_type": "test",
+  "timestamp": "20250324_133041",
+  "spans": [
+    {
+      "span_id": "span_1",
+      "trace_id": "trace_25671fa8b1b54ecb96674e61",
+      "span_type": "test_initialization",
+      "started_at": "2025-03-24T13:30:41.310558",
+      "ended_at": "2025-03-24T13:30:41.310583",
+      "details": {
+        "agent_name": "Test Agent",
+        "message": "Initialized test process"
+      },
+      "duration_ms": 0.025
+    },
+    {
+      "span_id": "span_2",
+      "trace_id": "trace_25671fa8b1b54ecb96674e61",
+      "span_type": "test_processing",
+      "started_at": "2025-03-24T13:30:41.310586",
+      "ended_at": "2025-03-24T13:30:41.310587",
+      "details": {
+        "agent_name": "Test Agent",
+        "message": "Processed test data"
+      },
+      "duration_ms": 0.001
+    }
+  ],
+  "openai_trace_id": null,
+  "agent_count": 1,
+  "total_duration_ms": 0.026000000000000002
+}

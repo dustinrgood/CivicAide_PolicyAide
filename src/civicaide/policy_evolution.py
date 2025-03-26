@@ -15,6 +15,8 @@ from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 import datetime
 import uuid
+import streamlit as st
+from openai import AsyncOpenAI
 
 # Add the project root to the Python path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -22,6 +24,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 # Import the agents SDK
 from src.agents import Agent, Runner, ItemHelpers, trace, custom_span, gen_trace_id
 from agents.result import RunResult
+from src.civicaide.trace_manager import get_trace_processor
+from agents.tracing import add_trace_processor
+from agents.tracing.processors import BatchTraceProcessor, BackendSpanExporter
 
 # Load environment variables
 dotenv_path = Path(__file__).parent / "local.env"
@@ -36,6 +41,14 @@ if "OPENAI_API_KEY" not in os.environ and os.path.exists(dotenv_path):
                 os.environ["OPENAI_API_KEY"] = key
                 print("API key loaded from local.env")
                 break
+
+# Initialize OpenAI client
+client = AsyncOpenAI()
+
+# Set up OpenAI tracing - add our processor alongside the default OpenAI one
+backend_exporter = BackendSpanExporter()
+trace_processor = BatchTraceProcessor(backend_exporter)
+add_trace_processor(trace_processor)  # This adds our processor while keeping the OpenAI one
 
 # Define specialized agents for the orchestration pattern
 planning_agent = Agent(
@@ -100,6 +113,10 @@ class PolicyProposal:
     implementation_challenges: List[str] = field(default_factory=list)
     equity_considerations: str = ""
     economic_analysis: str = ""
+    
+    def full_text(self) -> str:
+        """Get the full text of the proposal including title, description, and rationale."""
+        return f"{self.title}\n\n{self.description}\n\nRationale:\n{self.rationale}"
 
 # API-compatible Pydantic models for OpenAI
 class PolicyProposalModel(BaseModel):
@@ -528,55 +545,204 @@ class PolicyEvolutionManager:
     
     async def run(self, query: str) -> FinalReportModel:
         """Run the full policy evolution process."""
-        # Initialize trace with a unique ID
-        trace_id = gen_trace_id()
+        # Get trace manager
+        trace_processor = get_trace_processor()
+        
+        # Use trace ID from OpenAI if available, otherwise generate a new one
+        # Ensure trace ID always starts with "trace_" to meet OpenAI requirements
+        openai_trace_id = os.environ.get("OPENAI_TRACE_ID")
+        if openai_trace_id:
+            trace_id = openai_trace_id
+            print(f"Using OpenAI trace ID: {trace_id}")
+        else:
+            trace_id = f"trace_{uuid.uuid4().hex[:24]}"  # Use gen_trace_id() format
+            print(f"Generated trace ID: {trace_id}")
+            
         self.trace_id = trace_id
         
-        # Use the trace context manager to properly set up tracing
+        # Set OpenAI API headers for tracing if we have an API key
+        if "OPENAI_API_KEY" in os.environ:
+            # Enable traces in the OpenAI client
+            os.environ["OPENAI_API_TYPE"] = "openai"
+            os.environ["OPENAI_API_VERSION"] = "2023-05-15"  # Use appropriate version
+            
+            # The OpenAI client will automatically use this header when creating the client
+            os.environ["OPENAI_EXTRA_HEADERS"] = json.dumps({
+                "OpenAI-Beta": "assistants=v2 tools=v2 trace=v1",
+                "X-Trace-Id": trace_id
+            })
+        
+        # Initialize trace - custom_span doesn't accept trace_id directly
         with trace("Policy Evolution Process", trace_id=trace_id) as current_trace:
             self.current_trace = current_trace
-            print(f"\n{'='*60}")
-            print(f"CivicAide Policy Evolution System - Mimicking Google's AI Co-Scientist")
-            print(f"{'='*60}\n")
-            print(f"Policy Query: {query}\n")
+            
+            # Ensure we have a valid trace ID
+            print(f"\nInitializing Policy Evolution System for: {query}")
             print(f"Trace ID: {trace_id}")
             
-            # Step 1: Gather local context
-            local_context = await self._gather_local_context(query)
-            
-            # Step 2: Conduct web research based on local context
-            research_results = await self._conduct_web_research(query, local_context)
-            
-            # Step 3: Generate initial policy proposals informed by research and context
-            for generation in range(self.max_generations):
-                print(f"\n--- Generation {generation+1} ---\n")
-                self.generation_count = generation + 1
+            # Record the initialization
+            system_span_id = trace_processor.record_agent_interaction(
+                trace_id=trace_id,
+                agent_name="System",
+                input_text=f"Policy Query: {query}",
+                output_text=f"Initialized Policy Evolution System",
+                span_type="system_initialization",
+                model="system"
+            )
                 
-                # Step 3a: Generate initial proposals or evolve existing ones
-                if generation == 0:
-                    await self._generate_initial_proposals(query, local_context, research_results)
-                else:
-                    await self._evolve_top_proposals()
+            try:
+                # Step 1: Gather local context information through user interaction
+                local_context = await self._gather_local_context(query)
                 
-                # Step 3b: Run a tournament to compare and rank proposals
-                await self._run_tournament()
-                
-                # Step 3c: Display current rankings
-                print("\nCurrent Policy Proposal Rankings:")
-                top_proposals = sorted(
-                    self.proposals.values(),
-                    key=lambda p: self.elo_system.get_rating(p.id),
-                    reverse=True
+                # Record the context gathering
+                context_span_id = trace_processor.record_agent_interaction(
+                    trace_id=trace_id,
+                    agent_name="Context Agent",
+                    input_text=f"Policy Query: {query}",
+                    output_text=f"Gathered local context: {local_context.jurisdiction_type}, {local_context.population_size} population",
+                    span_type="context_gathering",
+                    model="system",
+                    parent_span_id=system_span_id,
+                    system_instructions="""Ask the user specific questions to understand their local context for policy implementation.
+                        Focus on jurisdiction type, population, economic factors, political landscape, and stakeholder dynamics."""
                 )
                 
-                for i, proposal in enumerate(top_proposals):
-                    print(f"{i+1}. {proposal.title} (Elo: {self.elo_system.get_rating(proposal.id):.1f})")
-                print()
-            
-            # Step 4: Create a final report
-            final_report = await self._create_final_report(query, local_context, research_results)
-            
-            return final_report
+                # Step 2: Conduct web research based on local context
+                research_results = await self._conduct_web_research(query, local_context)
+                
+                # Record the research results
+                research_span_id = trace_processor.record_agent_interaction(
+                    trace_id=trace_id,
+                    agent_name="Research Agent",
+                    input_text=f"Policy Query: {query}\nLocal Context: {local_context.jurisdiction_type}",
+                    output_text=f"Generated research results with {len(research_results.successful_implementations)} successful implementations",
+                    span_type="research",
+                    parent_span_id=system_span_id,
+                    system_instructions="""Research real-world examples and evidence for the policy topic.
+                        Focus on successful implementations, challenges faced, and lessons learned from similar jurisdictions."""
+                )
+                
+                # Step 3: Generate initial policy proposals informed by research and context
+                for generation in range(self.max_generations):
+                    print(f"\n--- Generation {generation+1} ---\n")
+                    self.generation_count = generation + 1
+                    
+                    # Create a generation span to group all activities in this generation
+                    generation_span_id = trace_processor.record_agent_interaction(
+                        trace_id=trace_id,
+                        agent_name="Generation Manager",
+                        input_text=f"Generation {generation+1} started",
+                        output_text=f"Managing generation {generation+1} of policy proposals",
+                        span_type="generation_marker",
+                        parent_span_id=system_span_id
+                    )
+                    
+                    # Step 3a: Generate initial proposals or evolve existing ones
+                    if generation == 0:
+                        await self._generate_initial_proposals(query, local_context, research_results)
+                        
+                        # Record the proposal generation
+                        generation_process_span_id = trace_processor.record_agent_interaction(
+                            trace_id=trace_id,
+                            agent_name="Policy Generation Agent",
+                            input_text=f"Generate initial policy proposals for: {query}",
+                            output_text=f"Generated {len(self.proposals)} initial policy proposals",
+                            span_type="policy_generation",
+                            model="gpt-4-turbo",
+                            parent_span_id=generation_span_id,
+                            metadata={
+                                "generation": generation + 1,
+                                "proposal_count": len(self.proposals)
+                            },
+                            system_instructions="""Generate innovative, practical, and effective policy proposals for local governments on a given policy topic.
+                                Consider the local context, research findings, and stakeholder needs. Focus on feasibility, equity, and measurable impact."""
+                        )
+                    else:
+                        await self._evolve_top_proposals()
+                        
+                        # Record the policy evolution
+                        generation_process_span_id = trace_processor.record_agent_interaction(
+                            trace_id=trace_id,
+                            agent_name="Policy Evolution Agent",
+                            input_text=f"Evolve top proposals for generation {generation}",
+                            output_text=f"Evolved policy proposals for generation {generation}",
+                            span_type="policy_evolution",
+                            model="gpt-4-turbo",
+                            parent_span_id=generation_span_id,
+                            metadata={
+                                "generation": generation + 1,
+                                "proposal_count": len(self.proposals)
+                            },
+                            system_instructions="""Improve existing policy proposals by addressing their weaknesses and enhancing their strengths.
+                                Focus on practical implementation, equity considerations, and measurable outcomes."""
+                        )
+                    
+                    # Step 3b: Run a tournament to compare and rank proposals
+                    await self._run_tournament()
+                    
+                    # Record the tournament results
+                    tournament_span_id = trace_processor.record_agent_interaction(
+                        trace_id=trace_id,
+                        agent_name="Policy Evaluation Agent",
+                        input_text=f"Evaluate policy proposals via tournament for generation {generation+1}",
+                        output_text=f"Completed tournament evaluation for generation {generation+1}",
+                        span_type="policy_evaluation",
+                        model="gpt-4-turbo",
+                        parent_span_id=generation_span_id,
+                        metadata={
+                            "generation": generation + 1,
+                            "tournament_rounds": self.tournament_rounds
+                        },
+                        system_instructions="""Compare two policy proposals to determine which is more effective and equitable.
+                            Evaluate based on practicality, impact, cost-effectiveness, and alignment with local needs."""
+                    )
+                    
+                    # Step 3c: Display current rankings
+                    print("\nCurrent Policy Proposal Rankings:")
+                    top_proposals = sorted(
+                        self.proposals.values(),
+                        key=lambda p: self.elo_system.get_rating(p.id),
+                        reverse=True
+                    )
+                    
+                    for i, proposal in enumerate(top_proposals):
+                        print(f"{i+1}. {proposal.title} (Elo: {self.elo_system.get_rating(proposal.id):.1f})")
+                    print()
+                
+                # Step 4: Create a final report
+                final_report = await self._create_final_report(query, local_context, research_results)
+                
+                # Record the final report generation
+                final_report_span_id = trace_processor.record_agent_interaction(
+                    trace_id=trace_id,
+                    agent_name="Stakeholder Analysis Agent",
+                    input_text=f"Analyze stakeholder impacts for top policy proposals on: {query}",
+                    output_text=f"Completed evolution process with {len(final_report.top_proposals)} top proposals",
+                    span_type="stakeholder_analysis",
+                    model="gpt-4-turbo",
+                    parent_span_id=system_span_id,
+                    metadata={
+                        "top_proposal_count": len(final_report.top_proposals),
+                        "total_generations": self.generation_count,
+                        "total_proposals": len(self.proposals)
+                    },
+                    system_instructions="""Create a comprehensive final policy report summarizing the best policies identified through the evolution process.
+                        Include detailed stakeholder analysis, implementation steps, and impact assessments."""
+                )
+                
+                # Add OpenAI trace URL
+                openai_trace_url = f"https://platform.openai.com/logs?filter=%7B%22trace_id%22%3A%22{trace_id}%22%7D"
+                print(f"\nOpenAI logs for this run: {openai_trace_url}")
+                
+                # Save the trace data
+                trace_file = trace_processor.save_trace_to_file_and_db(query, "evolution")
+                if trace_file:
+                    print(f"Trace data saved to: {trace_file}")
+                
+                return final_report
+            except Exception as e:
+                print(f"Error in policy evolution process: {e}")
+                raise
     
     async def _gather_local_context(self, query: str) -> LocalContext:
         """Gather local context information through interaction with the user."""
@@ -883,7 +1049,8 @@ class PolicyEvolutionManager:
         """Generate the initial set of policy proposals informed by context and research."""
         print("Generating initial policy proposals...")
         
-        with custom_span("Initial Policy Generation", parent=self.current_trace):
+        # Use span wrapper instead of directly calling custom_span
+        with custom_span("Initial Policy Generation", parent=self.current_trace) as span:
             # Prepare the generation prompt with context and research
             generation_prompt = (
                 f"Policy Query: {query}\n\n"
@@ -901,23 +1068,26 @@ class PolicyEvolutionManager:
                 f"- Successful Implementations: {json.dumps(research_results.successful_implementations)[:300]}...\n"
                 f"- Example Ordinances: {json.dumps(research_results.example_ordinances)[:300]}...\n"
                 f"- Stakeholder Responses: {json.dumps(research_results.stakeholder_responses)[:300]}...\n\n"
-                f"TASK: Based on this specific local context and research, generate three diverse, detailed, and tailored policy proposals.\n"
-                f"Each proposal MUST be customized to address the unique aspects of {local_context.jurisdiction_type}, its {local_context.economic_context} economic context, "
-                f"and political considerations including {local_context.political_landscape}.\n"
-                f"Be sure each proposal accounts for budget constraints: {local_context.budget_constraints}\n"
-                f"Explicitly address how the policy will handle these local challenges: {local_context.local_challenges}"
+                f"Generate 4-6 diverse, innovative policy proposals for: {query}\n\n"
+                f"Each proposal should include:\n"
+                f"1. A descriptive title\n"
+                f"2. A detailed description of the policy mechanism\n"
+                f"3. A rationale explaining why it will be effective\n"
+                f"4. Analysis of impacts on different stakeholder groups\n"
+                f"5. Potential implementation challenges\n"
+                f"6. Equity considerations\n"
+                f"7. Economic analysis including costs and benefits\n\n"
+                f"IMPORTANT: Make proposals HIGHLY RELEVANT to {local_context.jurisdiction_type} jurisdiction with {local_context.population_size} population and {local_context.political_landscape} political landscape."
             )
             
-            # Log the generation prompt for debugging
-            print("\n[DEBUG] Policy generation prompt (first 500 chars):")
-            print(generation_prompt[:500] + "...\n")
-            
-            generation_result = await Runner.run(
+            # Generate the initial policy proposals
+            policy_result = await Runner.run(
                 policy_generation_agent,
                 generation_prompt,
             )
             
-            proposal_batch = generation_result.final_output_as(PolicyProposalBatch)
+            # Convert the result to a batch of proposals
+            proposal_batch = policy_result.final_output_as(PolicyProposalBatch)
             
             # Add proposals to our collection, converting from Pydantic models to dataclasses
             for proposal_model in proposal_batch.proposals:
@@ -946,11 +1116,38 @@ class PolicyEvolutionManager:
         """Run a tournament to compare and rank policy proposals."""
         print("\n--- Running Policy Tournament ---\n")
         
-        with custom_span("Policy Tournament", parent=self.current_trace):
+        with custom_span("Policy Tournament", parent=self.current_trace) as span:
+            # Create a tournament trace span that will be the parent of all comparison spans
+            trace_processor = get_trace_processor()
+            tournament_span_id = None
+            
+            if trace_processor and self.trace_id:
+                tournament_span_id = trace_processor.record_agent_interaction(
+                    trace_id=self.trace_id,
+                    agent_name="Tournament Manager",
+                    input_text=f"Running tournament with {self.tournament_rounds} rounds",
+                    output_text=f"Tournament started with {len(self.proposals)} proposals",
+                    span_type="tournament_management",
+                    model="system"
+                )
+            
             proposal_ids = list(self.proposals.keys())
             
             for round_num in range(self.tournament_rounds):
                 print(f"  Tournament round {round_num + 1}/{self.tournament_rounds}")
+                
+                # Create a round span for this specific tournament round
+                round_span_id = None
+                if trace_processor and self.trace_id:
+                    round_span_id = trace_processor.record_agent_interaction(
+                        trace_id=self.trace_id,
+                        agent_name="Tournament Round Manager",
+                        input_text=f"Tournament round {round_num + 1}/{self.tournament_rounds}",
+                        output_text=f"Running round {round_num + 1} with {len(proposal_ids)} proposals",
+                        span_type="tournament_round",
+                        model="system",
+                        parent_span_id=tournament_span_id
+                    )
                 
                 # Randomly pair proposals for comparison
                 random.shuffle(proposal_ids)
@@ -962,58 +1159,91 @@ class PolicyEvolutionManager:
                     proposal_a_id = proposal_ids[i]
                     proposal_b_id = proposal_ids[i + 1]
                     
-                    winner_id = await self._compare_proposals(proposal_a_id, proposal_b_id)
+                    # Get the full text of each proposal
+                    proposal_a_text = self.proposals[proposal_a_id].full_text()
+                    proposal_b_text = self.proposals[proposal_b_id].full_text()
+                    
+                    winner_text = await self._compare_proposals(proposal_a_text, proposal_b_text, self.trace_id, round_span_id)
+                    
+                    # Determine winner based on text matching
+                    winner_id = proposal_a_id if winner_text == proposal_a_text else proposal_b_id
+                    loser_id = proposal_b_id if winner_text == proposal_a_text else proposal_a_id
                     
                     # Update Elo ratings
-                    self.elo_system.update_rating(winner_id, proposal_a_id if winner_id != proposal_a_id else proposal_b_id)
+                    self.elo_system.update_rating(winner_id, loser_id)
                     
                     print(f"    Comparison: {self.proposals[proposal_a_id].title} vs {self.proposals[proposal_b_id].title}")
                     print(f"    Winner: {self.proposals[winner_id].title}")
     
-    async def _compare_proposals(self, proposal_id_1: str, proposal_id_2: str) -> str:
-        """Compare two policy proposals and determine which is superior."""
-        proposal_1 = self.proposals[proposal_id_1]
-        proposal_2 = self.proposals[proposal_id_2]
+    async def _compare_proposals(self, policy1: str, policy2: str, trace_id: str, parent_span_id: str = None) -> str:
+        """Compare two policy proposals and return the better one."""
         
-        # Prepare the comparison prompt
-        comparison_prompt = (
-            f"Policy Comparison:\n\n"
-            f"Policy 1: {proposal_1.title}\n{proposal_1.description}\n{proposal_1.rationale}\n\n"
-            f"Policy 2: {proposal_2.title}\n{proposal_2.description}\n{proposal_2.rationale}\n\n"
-            f"Compare these policies based on environmental impact, economic feasibility, "
-            f"social equity, implementation complexity, and stakeholder acceptance across "
-            f"different groups (small businesses, large retailers, low-income residents, "
-            f"environmental groups, local government, manufacturers).\n\n"
-            f"Which policy is more effective and equitable overall? Explain your reasoning."
+        # Get trace processor instance
+        trace_processor = get_trace_processor()
+        
+        comparison_instructions = """Compare two policy proposals to determine which is more effective and equitable.
+            Evaluate based on practicality, impact, cost-effectiveness, and alignment with local needs."""
+        
+        comparison_prompt = f"""Policy Comparison: Policy 1: {policy1}
+
+        Policy 2: {policy2}
+
+        Compare these policies based on:
+        1. Effectiveness in addressing the core problem
+        2. Equity and fairness considerations
+        3. Implementation feasibility
+        4. Cost-effectiveness
+        5. Alignment with local context and needs
+
+        Which policy is superior and why? Consider both immediate impact and long-term sustainability.
+        """
+        
+        # Run the comparison through the model
+        response = await client.chat.completions.create(
+            model="gpt-4-turbo-preview",
+            messages=[
+                {"role": "system", "content": comparison_instructions},
+                {"role": "user", "content": comparison_prompt}
+            ],
+            temperature=0.7
         )
         
-        # Run the comparison agent
-        result = await Runner.run(comparison_agent, comparison_prompt)
+        # Extract token usage and response ID
+        tokens_used = {
+            "prompt_tokens": response.usage.prompt_tokens,
+            "completion_tokens": response.usage.completion_tokens,
+            "total_tokens": response.usage.total_tokens
+        }
         
-        # Get the response text in a failsafe way by converting the entire result to string
-        response_text = str(result)
+        # Record the comparison in our trace if we have a trace processor
+        if trace_processor:
+            trace_processor.record_agent_interaction(
+                trace_id=trace_id,
+                agent_name="Policy Comparison Agent",
+                input_text=comparison_prompt,
+                output_text=response.choices[0].message.content,
+                span_type="policy_comparison",
+                parent_span_id=parent_span_id,
+                model="gpt-4-turbo-preview",
+                system_instructions=comparison_instructions,
+                tokens_used=tokens_used,
+                metadata={"openai_response_id": response.id}
+            )
         
-        # Log the comparison
-        print(f"    Comparison: {proposal_1.title} vs {proposal_2.title}")
+        # Parse the response to determine the winner
+        output_text = response.choices[0].message.content.lower()
         
-        # Simple heuristic: The policy that appears more often in the last part is likely the winner
-        policy1_mentions_in_conclusion = response_text[-500:].count("Policy 1") + response_text[-500:].count(proposal_1.title)
-        policy2_mentions_in_conclusion = response_text[-500:].count("Policy 2") + response_text[-500:].count(proposal_2.title)
+        # Simple heuristic - check which policy is mentioned more positively
+        policy1_score = output_text.count("policy 1") + output_text.count("first policy")
+        policy2_score = output_text.count("policy 2") + output_text.count("second policy")
         
-        if policy1_mentions_in_conclusion > policy2_mentions_in_conclusion:
-            winner_id = proposal_id_1
-            print(f"    Winner: {proposal_1.title}")
-        else:
-            winner_id = proposal_id_2
-            print(f"    Winner: {proposal_2.title}")
-        
-        return winner_id
+        return policy1 if policy1_score > policy2_score else policy2
     
     async def _evolve_top_proposals(self):
         """Evolve the top-performing policy proposals."""
         print("\n--- Evolving Top Policies ---\n")
         
-        with custom_span("Policy Evolution", parent=self.current_trace):
+        with custom_span("Policy Evolution", parent=self.current_trace) as span:
             # Get the top-performing proposals to evolve
             top_proposals = self._get_top_proposals(self.evolution_candidates)
             
@@ -1040,9 +1270,9 @@ class PolicyEvolutionManager:
                 equity_considerations = result.evolved_proposal.equity_considerations if result.evolved_proposal.equity_considerations is not None else ""
                 economic_analysis = result.evolved_proposal.economic_analysis if result.evolved_proposal.economic_analysis is not None else ""
                 
-                # Convert the evolved Pydantic model to our internal dataclass
+                # Create a new policy proposal with the evolved information
                 evolved_proposal = PolicyProposal(
-                    id=result.evolved_proposal.id,
+                    id=f"{result.original_id}_evolved_{self.generation_count}",
                     title=result.evolved_proposal.title,
                     description=result.evolved_proposal.description,
                     rationale=result.evolved_proposal.rationale,
@@ -1050,14 +1280,21 @@ class PolicyEvolutionManager:
                     implementation_challenges=implementation_challenges,
                     equity_considerations=equity_considerations,
                     economic_analysis=economic_analysis,
-                    generation=proposal.generation + 1
+                    generation=self.generation_count
                 )
                 
-                # Add evolved proposal to our collection
+                # Add the evolved proposal to our collection
                 self.proposals[evolved_proposal.id] = evolved_proposal
                 
+                # Print evolution information
                 print(f"  Evolved: {proposal.title} -> {evolved_proposal.title}")
-                print(f"  Improvements: {result.improvements[:100]}...")
+                
+                # Truncate improvements text if too long
+                improvements_text = result.improvements
+                if len(improvements_text) > 100:
+                    improvements_text = improvements_text[:100] + "..."
+                    
+                print(f"  Improvements: {improvements_text}")
     
     async def _create_final_report(self, query: str, local_context: LocalContext, research_results: ResearchResults) -> FinalReportModel:
         """Create a final policy report incorporating local context and research findings."""
@@ -1069,7 +1306,7 @@ class PolicyEvolutionManager:
             if attr != "_sa_instance_state" and attr != "stakeholder_influence":
                 print(f"  {attr}: {value}")
         
-        with custom_span("Final Policy Report", parent=self.current_trace):
+        with custom_span("Final Policy Report", parent=self.current_trace) as span:
             # Get the top-rated proposals
             top_proposals = self._get_top_proposals(3)
             
@@ -1235,54 +1472,113 @@ if __name__ == "__main__":
     print("\n" + "="*80)
     print("FINAL POLICY REPORT")
     print("="*80 + "\n")
+    print(f"Summary: {report.summary}\n")
     
-    print(f"Executive Summary:\n{report.summary}\n")
-    
-    print("Top Policy Proposals:")
-    for i, proposal in enumerate(report.top_proposals):
-        print(f"\n{i+1}. {proposal.title}")
-        print(f"   {proposal.description[:200]}...")
+    print("Top Proposals:")
+    for i, proposal in enumerate(report.top_proposals, 1):
+        print(f"{i}. {proposal.title}")
+        print(f"   {proposal.description[:100]}...")
     
     print("\nKey Considerations:")
-    for consideration in report.key_considerations:
-        print(f"- {consideration}")
+    for i, consideration in enumerate(report.key_considerations, 1):
+        print(f"{i}. {consideration}")
+
+def main():
+    """Main function for the policy evolution page when run from the app."""
+    st.title("Policy Evolution")
     
-    print("\nImplementation Steps:")
-    for i, step in enumerate(report.implementation_steps):
-        print(f"{i+1}. {step}")
+    st.write("""
+    Generate and evolve policy proposals through a tournament process.
+    This advanced analysis develops multiple policy options and evaluates them competitively to find the strongest solutions.
+    """)
     
-    # Ask if the user wants to save the report
-    save_option = input("\nSave report to file? (y/n): ").lower().strip()
-    if save_option.startswith('y'):
-        from datetime import datetime
+    query = st.text_area("Enter your policy question:", placeholder="Example: How can our city incentivize renewable energy adoption?")
+    
+    # Optional local context settings
+    with st.expander("Local Context Settings (Optional)"):
+        col1, col2 = st.columns(2)
+        with col1:
+            jurisdiction_type = st.selectbox("Jurisdiction Type", 
+                                           ["City", "County", "State", "Township", "Village", "Special District"])
+            population = st.text_input("Population Size", placeholder="e.g. 120,000")
+            economic_context = st.text_input("Economic Context", placeholder="e.g. Manufacturing, Service, Tourism")
+            
+        with col2:
+            budget = st.text_input("Budget Constraints", placeholder="e.g. $50,000 annual sustainability budget")
+            politics = st.text_input("Political Landscape", placeholder="e.g. Progressive council, upcoming election")
+            key_stakeholders = st.text_input("Key Stakeholders", placeholder="e.g. Businesses, residents, environmental groups")
+    
+    if st.button("Run Policy Evolution"):
+        if query:
+            with st.spinner("Evolving policy options through multiple generations..."):
+                try:
+                    report = asyncio.run(run_policy_evolution(query))
+                    st.session_state.evolution_report = report
+                    st.success("Policy evolution complete!")
+                except Exception as e:
+                    st.error(f"Error in policy evolution: {str(e)}")
+        else:
+            st.warning("Please enter a policy question.")
+    
+    # Display results if available
+    if 'evolution_report' in st.session_state:
+        report = st.session_state.evolution_report
         
-        default_filename = f"policy_evolution_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-        filename = input(f"Enter filename (default: {default_filename}): ").strip()
-        output_file = filename if filename else default_filename
+        st.subheader("Policy Evolution Results")
+        st.markdown(f"**Summary:** {report.summary}")
         
-        with open(output_file, 'w') as f:
-            f.write(f"# Policy Evolution Report: {query}\n\n")
-            f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        st.subheader("Top Policy Proposals")
+        for i, proposal in enumerate(report.top_proposals, 1):
+            with st.expander(f"{i}. {proposal.title}"):
+                st.write(f"**Description:** {proposal.description}")
+                st.write(f"**Rationale:** {proposal.rationale}")
+                
+                if proposal.stakeholder_impacts:
+                    st.subheader("Stakeholder Impacts")
+                    for stakeholder, impact in proposal.stakeholder_impacts.items():
+                        st.write(f"**{stakeholder}:** {impact}")
+                
+                if proposal.implementation_challenges:
+                    st.subheader("Implementation Challenges")
+                    for challenge in proposal.implementation_challenges:
+                        st.write(f"- {challenge}")
+        
+        st.subheader("Key Considerations")
+        for consideration in report.key_considerations:
+            st.markdown(f"- {consideration}")
+        
+        st.subheader("Implementation Steps")
+        for i, step in enumerate(report.implementation_steps, 1):
+            st.markdown(f"{i}. {step}")
+        
+        # Option to save to dashboard
+        if st.button("Save to Dashboard"):
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"policy_evolution_{timestamp}.md"
             
-            f.write("## Executive Summary\n\n")
-            f.write(f"{report.summary}\n\n")
+            # Create markdown for the report
+            md_content = f"# Policy Evolution: {query}\n\n"
+            md_content += f"## Executive Summary\n\n{report.summary}\n\n"
+            md_content += "## Top Policy Proposals\n\n"
             
-            f.write("## Top Policy Proposals\n\n")
-            for i, proposal in enumerate(report.top_proposals):
-                f.write(f"### {i+1}. {proposal.title}\n\n")
-                f.write(f"{proposal.description}\n\n")
-                f.write(f"**Rationale**: {proposal.rationale}\n\n")
+            for i, proposal in enumerate(report.top_proposals, 1):
+                md_content += f"### {i}. {proposal.title}\n\n"
+                md_content += f"{proposal.description}\n\n"
+                md_content += f"**Rationale**: {proposal.rationale}\n\n"
             
-            f.write("## Key Considerations\n\n")
+            md_content += "## Key Considerations\n\n"
             for consideration in report.key_considerations:
-                f.write(f"- {consideration}\n")
-            f.write("\n")
+                md_content += f"- {consideration}\n"
             
-            f.write("## Implementation Steps\n\n")
-            for i, step in enumerate(report.implementation_steps):
-                f.write(f"{i+1}. {step}\n")
-        
-        print(f"\nReport saved to: {output_file}")
+            md_content += "\n## Implementation Steps\n\n"
+            for i, step in enumerate(report.implementation_steps, 1):
+                md_content += f"{i}. {step}\n"
+            
+            # Save the file
+            with open(filename, "w") as f:
+                f.write(md_content)
+            
+            st.success(f"Policy evolution report saved to {filename}. View it in the Policy Dashboard.")
 
 async def orchestrate_policy_analysis(query: str, context: LocalContext) -> dict:
     """Orchestrate multiple specialized LLMs in parallel processes"""

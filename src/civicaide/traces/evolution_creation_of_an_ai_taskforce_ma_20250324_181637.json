@@ -1,0 +1,74 @@
+{
+  "trace_id": "trace_690e42264deb4b37a4169a9a",
+  "query": "Creation of an AI taskforce made up of staff, residents, and Subject matter experts",
+  "policy_type": "evolution",
+  "timestamp": "2025-03-24T18:16:37.226013",
+  "spans": [
+    {
+      "span_id": "span_1",
+      "span_type": "system_initialization",
+      "started_at": "2025-03-24T18:06:22.801935",
+      "ended_at": "2025-03-24T18:06:22.801942",
+      "details": {
+        "agent_name": "System",
+        "message": "Initialized evolution process for: Creation of an AI taskforce made up of staff, residents, and Subject matter experts"
+      },
+      "duration_ms": 0.007
+    },
+    {
+      "span_id": "span_2",
+      "span_type": "research",
+      "started_at": "2025-03-24T18:06:22.801948",
+      "ended_at": "2025-03-24T18:09:26.893920",
+      "details": {
+        "agent_name": "Research Agent",
+        "message": "Researched policy background"
+      },
+      "duration_ms": 184091.972
+    },
+    {
+      "span_id": "span_3",
+      "span_type": "policy_generation",
+      "started_at": "2025-03-24T18:09:26.893920",
+      "ended_at": "2025-03-24T18:12:30.985892",
+      "details": {
+        "agent_name": "Policy Generation Agent",
+        "message": "Generated policy proposals"
+      },
+      "duration_ms": 184091.972
+    },
+    {
+      "span_id": "span_4",
+      "span_type": "policy_evaluation",
+      "started_at": "2025-03-24T18:12:30.985892",
+      "ended_at": "2025-03-24T18:14:33.713874",
+      "details": {
+        "agent_name": "Policy Evaluation Agent",
+        "message": "Evaluated policy proposals"
+      },
+      "duration_ms": 122727.982
+    },
+    {
+      "span_id": "span_5",
+      "span_type": "stakeholder_analysis",
+      "started_at": "2025-03-24T18:14:33.713874",
+      "ended_at": "2025-03-24T18:16:36.441856",
+      "details": {
+        "agent_name": "Stakeholder Analysis Agent",
+        "message": "Analyzed stakeholder impacts"
+      },
+      "duration_ms": 122727.982
+    },
+    {
+      "span_id": "span_2",
+      "span_type": "system_completion",
+      "started_at": "2025-03-24T18:16:36.441856",
+      "ended_at": "2025-03-24T18:16:36.441856",
+      "details": {
+        "agent_name": "System",
+        "message": "Completed evolution process in 613.639908 seconds"
+      },
+      "duration_ms": 0.0
+    }
+  ]
+}
