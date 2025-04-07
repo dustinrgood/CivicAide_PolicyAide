@@ -1,0 +1,104 @@
+{
+  "official_info": {
+    "name": "Dustin Good",
+    "email": "dustinrgood@gmail.com",
+    "role": "Mayor",
+    "interests": [
+      "Technology and Innovation"
+    ]
+  },
+  "basic_info": {
+    "jurisdiction_type": "City",
+    "name": "City of Elgin",
+    "state": "Illinois",
+    "county": "Kane and Cook Counties",
+    "incorporation_date": "1854",
+    "population": 115000,
+    "area_sq_miles": 38.9,
+    "population_density": 2956
+  },
+  "demographics": {
+    "racial_makeup": {
+      "White": 65.2,
+      "Hispanic/Latino": 24.7,
+      "Black": 6.8,
+      "Asian": 5.4,
+      "Other": 2.9
+    },
+    "median_age": 34.3,
+    "median_household_income": 76513,
+    "poverty_rate": 10.8,
+    "education_bachelors_or_higher": 28.7
+  },
+  "government": {
+    "gov_type": "Council-Manager",
+    "mayor": "David J. Kaptain",
+    "council_size": 8,
+    "election_schedule": "Next election: April 2025",
+    "meeting_schedule": "City Council meets on the 2nd and 4th Wednesday of each month at 6:00 PM",
+    "departments": [
+      "Police",
+      "Fire",
+      "Public Works",
+      "Community Development",
+      "Finance",
+      "Parks and Recreation"
+    ]
+  },
+  "budget": {
+    "fiscal_year": "2023-2024",
+    "total_budget": "$308.7 million",
+    "general_fund": "$119.2 million",
+    "capital_improvements": "$42.6 million",
+    "sustainability_allocation": "$25,000",
+    "major_revenue_sources": [
+      "Property Tax (30%)",
+      "Sales Tax (22%)",
+      "Utility Fees (15%)",
+      "State Income Tax (8%)"
+    ]
+  },
+  "current_priorities": [
+    "Downtown revitalization",
+    "Infrastructure improvements",
+    "Economic development",
+    "Public safety initiatives",
+    "Environmental sustainability"
+  ],
+  "key_stakeholders": {
+    "business_groups": [
+      "Elgin Area Chamber of Commerce",
+      "Downtown Neighborhood Association"
+    ],
+    "community_orgs": [
+      "Centro de Informaci\u00f3n",
+      "Community Crisis Center",
+      "Food for Greater Elgin"
+    ],
+    "educational_institutions": [
+      "School District U-46",
+      "Elgin Community College"
+    ],
+    "media_outlets": [
+      "Daily Herald",
+      "The Courier-News"
+    ]
+  },
+  "political_landscape": {
+    "voter_turnout_last_election": "28% (local election)",
+    "partisan_makeup": "Nonpartisan local elections",
+    "active_community_issues": [
+      "Housing affordability",
+      "Economic development",
+      "Infrastructure and transportation",
+      "Public safety",
+      "Environmental sustainability"
+    ]
+  },
+  "recent_legislation": [
+    "Resolution supporting environmental sustainability initiatives (2023)",
+    "Ordinance updating building codes for energy efficiency (2022)",
+    "Resolution establishing diversity and inclusion task force (2022)"
+  ],
+  "profile_created": "2025-03-28 14:11:04"
+}

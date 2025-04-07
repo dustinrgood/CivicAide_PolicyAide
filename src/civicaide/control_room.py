@@ -13,7 +13,6 @@ def init_page():
         page_icon="🎛️",
         layout="wide"
     )
-    st.title("🎛️ CivicAide Control Room")
 
 def load_agent_data():
     """Load agent data from the database"""
@@ -273,28 +272,29 @@ def main():
     """Main function for the control room interface"""
     init_page()
     
-    # Sidebar navigation
-    st.sidebar.title("Navigation")
-    page = st.sidebar.radio(
-        "Select a page",
-        ["Instructions", "Performance", "Trace Viewer"]
-    )
+    # Navigation inside main content area instead of sidebar
+    st.title("🎛️ CivicAide Control Room")
+    
+    # Create tabs for navigation instead of sidebar radio buttons
+    tab1, tab2, tab3 = st.tabs(["Instructions", "Performance", "Trace Viewer"])
     
     # Load data
     agent_data = load_agent_data()
     performance_data = load_performance_metrics()
     
-    # Display selected page
-    if page == "Instructions":
+    # Display selected page in appropriate tab
+    with tab1:  # Instructions
         display_agent_instructions(agent_data)
-    elif page == "Performance":
+    
+    with tab2:  # Performance
         display_performance_metrics(performance_data)
-    else:  # Trace Viewer
+    
+    with tab3:  # Trace Viewer
         display_trace_viewer()
     
     # Footer
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("Last updated: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    st.markdown("---")
+    st.caption("Last updated: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 if __name__ == "__main__":
     main() 

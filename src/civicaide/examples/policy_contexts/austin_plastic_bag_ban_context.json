@@ -1,0 +1,131 @@
+{
+  "base_context": {
+    "location": {
+      "city": "Austin",
+      "state": "Texas",
+      "county": "Travis",
+      "country": "USA",
+      "zip_codes": null
+    },
+    "demographics": {
+      "population": 958202,
+      "median_age": 34.2,
+      "population_density": 0.0,
+      "household_income": {
+        "median": 86556.0,
+        "mean": 51816360200.0
+      },
+      "education_levels": {
+        "HighSchoolOrHigher": 7.920459360343643,
+        "BachelorsOrHigher": 24.654404812346456,
+        "GraduateOrProfessional": 10.926401739925403
+      },
+      "racial_composition": {
+        "White": 63.22487325219526,
+        "Black": 7.872244057098608,
+        "Asian": 8.374538980298517,
+        "Hispanic": 32.54887800275934
+      }
+    },
+    "economics": {
+      "major_industries": [
+        "Technology",
+        "Healthcare",
+        "Education",
+        "Manufacturing",
+        "Retail"
+      ],
+      "unemployment_rate": 0.05,
+      "poverty_rate": 0.12,
+      "major_employers": [
+        "Local University",
+        "Regional Hospital",
+        "Tech Corp"
+      ],
+      "industry_percentages": {
+        "manufacturing": 0.2,
+        "retail": 0.15,
+        "technology": 0.25,
+        "healthcare": 0.2,
+        "other": 0.2
+      }
+    },
+    "government": {
+      "government_type": "Mayor-Council",
+      "elected_officials": [
+        {
+          "title": "Mayor",
+          "name": "John Smith",
+          "term": "2024-2028"
+        },
+        {
+          "title": "City Council Member (District 1)",
+          "name": "Jane Doe",
+          "term": "2023-2027"
+        }
+      ],
+      "departments": [
+        "Public Safety",
+        "Infrastructure",
+        "Education"
+      ],
+      "budget_info": {
+        "total_budget": 100000000,
+        "revenue_sources": [
+          "Property Tax",
+          "Sales Tax",
+          "State Aid"
+        ],
+        "expenditure_categories": [
+          "Public Safety",
+          "Infrastructure",
+          "Education"
+        ],
+        "transparency_score": 0.8,
+        "citizen_engagement_score": 0.7,
+        "efficiency_score": 0.75
+      }
+    }
+  },
+  "policy_context": {
+    "policy_area": "plastic bag ban",
+    "existing_regulations": [
+      "City ordinance 20110804-022 (Single-Use Carryout Bag Ordinance)",
+      "Texas Health and Safety Code \u00a7361.0961 (state preemption)",
+      "Texas Supreme Court ruling on bag bans (June 2018)"
+    ],
+    "stakeholders": [
+      {
+        "name": "Austin Environmental Commission",
+        "position": "Supportive"
+      },
+      {
+        "name": "Texas Retail Association",
+        "position": "Opposed"
+      },
+      {
+        "name": "Local Environmental Groups",
+        "position": "Strongly Supportive"
+      }
+    ],
+    "recent_developments": [
+      "Texas Legislature considered preemption bill HB 2416 in 2023",
+      "Austin's Sustainability Office released impact report of original ban (2018)",
+      "Local advocacy groups launched new campaign to reinstate bag ban (2022)"
+    ],
+    "similar_policies": [
+      {
+        "jurisdiction": "San Francisco, CA",
+        "description": "Complete ban on plastic bags with 10\u00a2 fee for alternatives"
+      },
+      {
+        "jurisdiction": "Chicago, IL",
+        "description": "7\u00a2 tax on all bags (plastic and paper)"
+      },
+      {
+        "jurisdiction": "Boston, MA",
+        "description": "Ban on thin plastic bags, 5\u00a2 fee for thicker bags and paper"
+      }
+    ]
+  }
+}

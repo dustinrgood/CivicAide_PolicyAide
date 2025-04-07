@@ -42,14 +42,18 @@ The Policy Evolution component uses an innovative tournament approach to evolve 
 3. **Policy Generation:**
    - Creates multiple diverse policy proposals tailored to your local context.
 4. **Policy Tournament:**
-   - Uses an Elo-based ranking system to compare policies against each other.
-   - Evaluates based on environmental impact, economic feasibility, equity, and stakeholder acceptance.
+   - Uses an Elo-based ranking system with full-text comparison of policies
+   - Performs deep analysis of each proposal's content, rationale, and implementation details
+   - Evaluates based on environmental impact, economic feasibility, equity, and stakeholder acceptance
+   - Maintains detailed comparison reasoning for audit and analysis
 5. **Policy Evolution:**
-   - Takes the top-performing policies and evolves them to address weaknesses.
-   - Each generation improves on previous iterations.
+   - Takes the top-performing policies and evolves them to address weaknesses
+   - Each generation improves on previous iterations
+   - Full-text comparisons ensure high-quality evolution decisions
 6. **Comprehensive Reporting:**
-   - Provides detailed stakeholder impact analysis across different groups.
-   - Includes implementation steps customized to your jurisdiction.
+   - Provides detailed stakeholder impact analysis across different groups
+   - Includes implementation steps customized to your jurisdiction
+   - Preserves comparison reasoning for transparency
 
 ### 4. Integrated Policy System
 
@@ -137,3 +141,75 @@ For web research functionality, an OpenAI API key is required. For enhanced sear
 ## Testing
 
 Unit tests are available in `tests/civicaide/test_policy_analysis.py`. 
+
+## Using Brave Search MCP
+
+CivicAide can utilize the Brave Search Model Context Protocol (MCP) server to provide real-time search results, elected officials data, and local business information. This enhances the quality of the context gathering process.
+
+### Setup
+
+1. Install the Brave Search MCP server globally:
+   ```bash
+   npm install -g @modelcontextprotocol/server-brave-search
+   ```
+
+2. Run the server:
+   - Using the provided script (Windows):
+     ```bash
+     .\scripts\run_brave_mcp.bat
+     ```
+   - Manually (PowerShell):
+     ```powershell
+     $env:BRAVE_API_KEY = "your-brave-api-key"
+     $env:PORT = 8051
+     npx @modelcontextprotocol/server-brave-search
+     ```
+
+3. Test the connection:
+   ```bash
+   python src/civicaide/examples/test_brave_adapter.py
+   ```
+
+### Usage
+
+The Brave Search MCP is automatically utilized in the context gathering process when available. If the server is not running, the system will fall back to using mock data or web scraping for information.
+
+To explicitly test the Brave Search adapter functionality:
+```python
+from src.civicaide.brave_search_adapter import BraveSearchMCPAdapter
+from src.civicaide.location_info import LocationInfo
+
+location = LocationInfo(city="Elgin", state="Illinois")
+adapter = BraveSearchMCPAdapter(mcp_url="http://localhost:8051")
+
+# Get local news
+news = adapter.get_local_news(location)
+print(f"Found {len(news)} news articles")
+
+# Get elected officials
+officials = adapter.get_elected_officials(location)
+print(f"Found {len(officials)} elected officials")
+
+# Get local businesses
+businesses = adapter.get_local_businesses(location, "restaurants")
+print(f"Found {len(businesses)} local restaurants")
+```
+
+## Environment Setup
+
+1. Copy the example environment file:
+```bash
+cp local.env.example local.env
+```
+
+2. Edit `local.env` with your API keys:
+- Get a Census API key from https://api.census.gov/data/key_signup.html
+- Get a Brave Search API key from https://api.search.brave.com/app/keys
+
+⚠️ IMPORTANT: Never commit your actual API keys to version control. The `local.env` file is gitignored for this reason.
+
+Example `local.env` structure (replace with your actual keys):
+```bash
+CENSUS_API_KEY=your_census_api_key_here
+BRAVE_API_KEY=your_brave_api_key_here
+``` 

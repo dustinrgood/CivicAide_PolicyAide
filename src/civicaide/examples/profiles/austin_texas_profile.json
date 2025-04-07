@@ -1,0 +1,88 @@
+{
+  "location": {
+    "city": "Austin",
+    "state": "Texas",
+    "county": "Travis",
+    "country": "USA",
+    "zip_codes": null
+  },
+  "demographics": {
+    "population": 958202,
+    "median_age": 34.2,
+    "population_density": 0.0,
+    "household_income": {
+      "median": 86556.0,
+      "mean": 51816360200.0
+    },
+    "education_levels": {
+      "HighSchoolOrHigher": 7.920459360343643,
+      "BachelorsOrHigher": 24.654404812346456,
+      "GraduateOrProfessional": 10.926401739925403
+    },
+    "racial_composition": {
+      "White": 63.22487325219526,
+      "Black": 7.872244057098608,
+      "Asian": 8.374538980298517,
+      "Hispanic": 32.54887800275934
+    }
+  },
+  "economics": {
+    "major_industries": [
+      "Technology",
+      "Healthcare",
+      "Education",
+      "Manufacturing",
+      "Retail"
+    ],
+    "unemployment_rate": 0.05,
+    "poverty_rate": 0.12,
+    "major_employers": [
+      "Local University",
+      "Regional Hospital",
+      "Tech Corp"
+    ],
+    "industry_percentages": {
+      "manufacturing": 0.2,
+      "retail": 0.15,
+      "technology": 0.25,
+      "healthcare": 0.2,
+      "other": 0.2
+    }
+  },
+  "government": {
+    "government_type": "Mayor-Council",
+    "elected_officials": [
+      {
+        "title": "Mayor",
+        "name": "John Smith",
+        "term": "2024-2028"
+      },
+      {
+        "title": "City Council Member (District 1)",
+        "name": "Jane Doe",
+        "term": "2023-2027"
+      }
+    ],
+    "departments": [
+      "Public Safety",
+      "Infrastructure",
+      "Education"
+    ],
+    "budget_info": {
+      "total_budget": 100000000,
+      "revenue_sources": [
+        "Property Tax",
+        "Sales Tax",
+        "State Aid"
+      ],
+      "expenditure_categories": [
+        "Public Safety",
+        "Infrastructure",
+        "Education"
+      ],
+      "transparency_score": 0.8,
+      "citizen_engagement_score": 0.7,
+      "efficiency_score": 0.75
+    }
+  }
+}

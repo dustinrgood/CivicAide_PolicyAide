@@ -1,0 +1,147 @@
+{
+  "base_context": {
+    "location": {
+      "city": "Elgin",
+      "state": "Illinois",
+      "county": "Kane",
+      "country": "USA",
+      "zip_codes": [
+        "60120",
+        "60123",
+        "60124"
+      ]
+    },
+    "demographics": {
+      "population": 114190,
+      "median_age": 35.5,
+      "population_density": 3820.0,
+      "household_income": {
+        "median": 85998.0,
+        "mean": 3936159400.0
+      },
+      "education_levels": {
+        "HighSchoolOrHigher": 13.07820299500832,
+        "BachelorsOrHigher": 10.745249146159908,
+        "GraduateOrProfessional": 4.981171731324984
+      },
+      "racial_composition": {
+        "White": 50.55871792626324,
+        "Black": 5.398020842455557,
+        "Asian": 6.191435327086435,
+        "Hispanic": 47.34302478325598
+      }
+    },
+    "economics": {
+      "major_industries": [
+        "Technology",
+        "Education",
+        "Government",
+        "Healthcare",
+        "Entertainment"
+      ],
+      "unemployment_rate": 3.2,
+      "poverty_rate": 12.5,
+      "major_employers": [
+        "University of Texas",
+        "Dell Technologies",
+        "Apple",
+        "IBM",
+        "Texas State Government"
+      ]
+    },
+    "government": {
+      "government_type": "Council-Manager",
+      "elected_officials": [
+        {
+          "title": "Mayor",
+          "name": "Mayor of Elgin",
+          "term": "Current"
+        },
+        {
+          "title": "City Manager",
+          "name": "City Manager",
+          "term": "Current"
+        },
+        {
+          "title": "City Council Member (At Large)",
+          "name": "Council Member 1",
+          "term": "Current"
+        },
+        {
+          "title": "City Council Member (At Large)",
+          "name": "Council Member 2",
+          "term": "Current"
+        },
+        {
+          "title": "City Council Member (At Large)",
+          "name": "Council Member 3",
+          "term": "Current"
+        }
+      ],
+      "departments": [
+        "Public Works",
+        "Parks and Recreation",
+        "Police Department",
+        "Fire Department",
+        "Planning and Development",
+        "Water Utility",
+        "Transportation",
+        "Health and Human Services"
+      ],
+      "budget_info": {
+        "total": 4500000000,
+        "fiscal_year": "2023-2024",
+        "major_allocation": "Public Safety",
+        "allocations": {
+          "Public Safety": "40.3%",
+          "Transportation": "15.7%",
+          "Parks and Recreation": "8.2%",
+          "Health and Human Services": "7.5%",
+          "Administrative Services": "6.8%",
+          "Other": "21.5%"
+        }
+      }
+    }
+  },
+  "policy_context": {
+    "policy_area": "plastic bag ban",
+    "existing_regulations": [
+      "City ordinance 20110804-022 (Single-Use Carryout Bag Ordinance)",
+      "Texas Health and Safety Code \u00a7361.0961 (state preemption)",
+      "Texas Supreme Court ruling on bag bans (June 2018)"
+    ],
+    "stakeholders": [
+      {
+        "name": "Austin Environmental Commission",
+        "position": "Supportive"
+      },
+      {
+        "name": "Texas Retail Association",
+        "position": "Opposed"
+      },
+      {
+        "name": "Local Environmental Groups",
+        "position": "Strongly Supportive"
+      }
+    ],
+    "recent_developments": [
+      "Texas Legislature considered preemption bill HB 2416 in 2023",
+      "Austin's Sustainability Office released impact report of original ban (2018)",
+      "Local advocacy groups launched new campaign to reinstate bag ban (2022)"
+    ],
+    "similar_policies": [
+      {
+        "jurisdiction": "San Francisco, CA",
+        "description": "Complete ban on plastic bags with 10\u00a2 fee for alternatives"
+      },
+      {
+        "jurisdiction": "Chicago, IL",
+        "description": "7\u00a2 tax on all bags (plastic and paper)"
+      },
+      {
+        "jurisdiction": "Boston, MA",
+        "description": "Ban on thin plastic bags, 5\u00a2 fee for thicker bags and paper"
+      }
+    ]
+  }
+}

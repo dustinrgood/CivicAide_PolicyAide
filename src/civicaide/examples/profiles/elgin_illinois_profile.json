@@ -1,0 +1,179 @@
+{
+  "location": {
+    "city": "Elgin",
+    "state": "Illinois",
+    "county": "Kane",
+    "country": "USA",
+    "zip_codes": [
+      "60120",
+      "60123",
+      "60124"
+    ]
+  },
+  "demographics": {
+    "population": 114190,
+    "median_age": 35.5,
+    "population_density": 3820.0,
+    "household_income": {
+      "median": 85998.0,
+      "mean": 3936159400.0
+    },
+    "education_levels": {
+      "HighSchoolOrHigher": 13.07820299500832,
+      "BachelorsOrHigher": 10.745249146159908,
+      "GraduateOrProfessional": 4.981171731324984
+    },
+    "racial_composition": {
+      "White": 50.55871792626324,
+      "Black": 5.398020842455557,
+      "Asian": 6.191435327086435,
+      "Hispanic": 47.34302478325598
+    }
+  },
+  "economics": {
+    "major_industries": [
+      "Technology",
+      "Education",
+      "Government",
+      "Healthcare",
+      "Entertainment"
+    ],
+    "unemployment_rate": 3.2,
+    "poverty_rate": 12.5,
+    "major_employers": [
+      "University of Texas",
+      "Dell Technologies",
+      "Apple",
+      "IBM",
+      "Texas State Government"
+    ]
+  },
+  "government": {
+    "government_type": "Council-Manager",
+    "elected_officials": [
+      {
+        "title": "Mayor",
+        "name": "Mayor of Elgin",
+        "term": "Current"
+      },
+      {
+        "title": "City Manager",
+        "name": "City Manager",
+        "term": "Current"
+      },
+      {
+        "title": "City Council Member (At Large)",
+        "name": "Council Member 1",
+        "term": "Current"
+      },
+      {
+        "title": "City Council Member (At Large)",
+        "name": "Council Member 2",
+        "term": "Current"
+      },
+      {
+        "title": "City Council Member (At Large)",
+        "name": "Council Member 3",
+        "term": "Current"
+      }
+    ],
+    "departments": [
+      "Public Works",
+      "Parks and Recreation",
+      "Police Department",
+      "Fire Department",
+      "Planning and Development",
+      "Water Utility",
+      "Transportation",
+      "Health and Human Services"
+    ],
+    "budget_info": {
+      "total": 4500000000,
+      "fiscal_year": "2023-2024",
+      "major_allocation": "Public Safety",
+      "allocations": {
+        "Public Safety": "40.3%",
+        "Transportation": "15.7%",
+        "Parks and Recreation": "8.2%",
+        "Health and Human Services": "7.5%",
+        "Administrative Services": "6.8%",
+        "Other": "21.5%"
+      }
+    }
+  },
+  "current_events": {
+    "news_items": [
+      {
+        "title": "Elgin Unveils New Downtown Revitalization Plan",
+        "source": "Daily Herald",
+        "date": "2025-02-18",
+        "summary": "The Elgin City Council has approved a comprehensive downtown revitalization plan that includes pedestrian-friendly street redesigns, facade improvement grants, and incentives for new businesses.",
+        "url": "https://www.dailyherald.com/news/elgin-revitalization"
+      },
+      {
+        "title": "Elgin Community College Expands Healthcare Training Programs",
+        "source": "Chicago Tribune",
+        "date": "2025-03-05",
+        "summary": "Elgin Community College has received a $2.5 million grant to expand its healthcare training programs, aiming to address the growing demand for healthcare workers in Kane County.",
+        "url": "https://www.chicagotribune.com/suburbs/elgin-college-expansion"
+      },
+      {
+        "title": "Elgin Launches New Climate Resilience Initiative",
+        "source": "Elgin Courier-News",
+        "date": "2025-01-22",
+        "summary": "Elgin has launched a new climate resilience initiative to reduce carbon emissions by 45% by 2030 and implement green infrastructure throughout the city.",
+        "url": "https://www.chicagotribune.com/suburbs/elgin/climate-initiative"
+      },
+      {
+        "title": "Fox River Trail Extension Project Breaks Ground in Elgin",
+        "source": "Kane County Chronicle",
+        "date": "2025-02-28",
+        "summary": "Construction has begun on a 3-mile extension of the Fox River Trail in Elgin, enhancing recreational opportunities and providing better connectivity to neighboring communities.",
+        "url": "https://www.kcchronicle.com/fox-river-trail-extension"
+      },
+      {
+        "title": "Elgin's Manufacturing Sector Shows Strong Growth",
+        "source": "Illinois Business Journal",
+        "date": "2025-01-15",
+        "summary": "Elgin's manufacturing sector has shown remarkable growth over the past year, with several companies expanding operations and creating hundreds of new jobs in the area.",
+        "url": "https://www.ilbusinessjournal.com/elgin-manufacturing-growth"
+      }
+    ],
+    "trending_topics": [
+      "Autonomous Transit Systems",
+      "Climate Resilience Planning",
+      "Affordable Housing Crisis",
+      "Tech Industry Growth",
+      "Water Conservation Technologies",
+      "AI Governance Policies",
+      "Urban Density Debates"
+    ],
+    "upcoming_events": [
+      {
+        "name": "City Council Budget Workshop for FY 2026",
+        "date": "March 25, 2025",
+        "location": "City Hall"
+      },
+      {
+        "name": "Climate Tech Innovation Summit",
+        "date": "April 8, 2025",
+        "location": "Convention Center"
+      },
+      {
+        "name": "Urban Mobility and Transit Forum",
+        "date": "April 15, 2025",
+        "location": "Downtown Library"
+      },
+      {
+        "name": "Community Housing Affordability Town Hall",
+        "date": "March 30, 2025",
+        "location": "Palmer Events Center"
+      },
+      {
+        "name": "Annual Water Conservation Symposium",
+        "date": "May 5, 2025",
+        "location": "University of Texas Campus"
+      }
+    ]
+  }
+}

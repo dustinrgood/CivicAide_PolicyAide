@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "census-mcp": {
+      "command": "cd",
+      "args": [
+        "src/civicaide",
+        "&&",
+        "python",
+        "-m",
+        "uvicorn",
+        "census_mcp:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8050"
+      ]
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "${env:BRAVE_API_KEY}"
+      }
+    }
+  }
+} 

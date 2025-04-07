@@ -112,7 +112,15 @@ def display_trace_timeline(spans):
 def find_local_traces():
     """Find all local trace files in the traces directory"""
     try:
-        trace_files = glob.glob("src/civicaide/traces/*.json")
+        # First try looking in src/civicaide/traces
+        trace_files = glob.glob("traces/*.json")
+        if not trace_files:
+            # Also try current directory
+            trace_files = glob.glob("*.json")
+            if not trace_files:
+                # Try application root directory
+                trace_files = glob.glob("src/civicaide/traces/*.json")
+        
         traces = []
         
         for file_path in trace_files:
@@ -124,11 +132,11 @@ def find_local_traces():
                 created_at = datetime.fromtimestamp(os.path.getmtime(file_path))
                 
                 # Extract trace_id from filename or data
-                trace_id = trace_data.get('id', os.path.splitext(filename)[0])
+                trace_id = trace_data.get('trace_id', trace_data.get('id', os.path.splitext(filename)[0]))
                 
                 # Get policy id if available
-                policy_id = None
-                if "_policy_" in filename:
+                policy_id = trace_data.get('policy_id', None)
+                if not policy_id and "_policy_" in filename:
                     policy_id = filename.split("_policy_")[1].split("_")[0]
                 
                 traces.append({
@@ -149,13 +157,20 @@ def find_local_traces():
         return []
 
 def main():
-    st.set_page_config(page_title="Policy Analysis Trace Viewer", layout="wide")
+    # Only set page config if not running from app.py
+    if os.environ.get("STREAMLIT_RUN_VIA_APP") != "true":
+        st.set_page_config(page_title="Policy Analysis Trace Viewer", layout="wide")
     
     st.markdown("# Policy Analysis Trace Viewer")
     
     # Check if we have a trace ID from URL parameter
-    query_params = st.experimental_get_query_params()
-    trace_id = query_params.get("trace_id", [None])[0]
+    try:
+        query_params = st.query_params
+        trace_id = query_params.get("trace_id", None)
+    except:
+        # Fall back to legacy method
+        query_params = st.experimental_get_query_params()
+        trace_id = query_params.get("trace_id", [None])[0]
     
     with st.sidebar:
         st.markdown("## Trace Controls")

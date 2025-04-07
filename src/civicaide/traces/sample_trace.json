@@ -1,5 +1,6 @@
 {
   "trace_id": "trace_sample_123456",
+  "policy_id": "plastic_bag_ban",
   "query": "Ban on single use plastic bags",
   "policy_type": "environmental",
   "timestamp": "2025-05-24T10:30:00",
@@ -16,16 +17,6 @@
     },
     {
       "span_id": "span_2",
-      "span_type": "research",
-      "started_at": "2025-05-24T10:31:00",
-      "ended_at": "2025-05-24T10:33:00",
-      "details": {
-        "agent_name": "Research Agent",
-        "message": "Researching environmental impact of plastic bags"
-      }
-    },
-    {
-      "span_id": "span_3",
       "span_type": "policy_generation",
       "started_at": "2025-05-24T10:33:00",
       "ended_at": "2025-05-24T10:35:00",
@@ -35,33 +26,53 @@
       }
     },
     {
-      "span_id": "span_4",
-      "span_type": "policy_evaluation",
-      "started_at": "2025-05-24T10:35:00",
-      "ended_at": "2025-05-24T10:36:30",
+      "span_id": "span_3",
+      "span_type": "research",
+      "started_at": "2025-05-24T10:31:00",
+      "ended_at": "2025-05-24T10:33:00",
       "details": {
-        "agent_name": "Policy Evaluation Agent",
-        "message": "Evaluating policy proposals for effectiveness"
+        "agent_name": "Research Agent",
+        "message": "Researching existing plastic bag policies in similar jurisdictions"
+      }
+    },
+    {
+      "span_id": "span_4",
+      "span_type": "impact_analysis",
+      "started_at": "2025-05-24T10:35:00",
+      "ended_at": "2025-05-24T10:38:00",
+      "details": {
+        "agent_name": "Impact Analysis Agent",
+        "message": "Analyzing environmental and economic impacts of proposed policy"
       }
     },
     {
       "span_id": "span_5",
       "span_type": "stakeholder_analysis",
-      "started_at": "2025-05-24T10:36:30",
-      "ended_at": "2025-05-24T10:38:00",
+      "started_at": "2025-05-24T10:38:00",
+      "ended_at": "2025-05-24T10:40:00",
       "details": {
         "agent_name": "Stakeholder Analysis Agent",
-        "message": "Analyzing impact on local businesses and residents"
+        "message": "Identifying affected stakeholders and their potential concerns"
       }
     },
     {
       "span_id": "span_6",
-      "span_type": "recommendation",
-      "started_at": "2025-05-24T10:38:00",
-      "ended_at": "2025-05-24T10:39:00",
+      "span_type": "policy_refinement",
+      "started_at": "2025-05-24T10:40:00",
+      "ended_at": "2025-05-24T10:43:00",
       "details": {
-        "agent_name": "Recommendation Agent",
-        "message": "Finalizing policy recommendations"
+        "agent_name": "Policy Refinement Agent",
+        "message": "Refining policy proposal based on impact and stakeholder analysis"
+      }
+    },
+    {
+      "span_id": "span_7",
+      "span_type": "policy_finalization",
+      "started_at": "2025-05-24T10:43:00",
+      "ended_at": "2025-05-24T10:45:00",
+      "details": {
+        "agent_name": "Policy Finalization Agent",
+        "message": "Finalizing policy proposal with implementation timeline and success metrics"
       }
     }
   ]

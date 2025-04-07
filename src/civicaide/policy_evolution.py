@@ -53,7 +53,7 @@ add_trace_processor(trace_processor)  # This adds our processor while keeping th
 # Define specialized agents for the orchestration pattern
 planning_agent = Agent(
     name="Planning agent",
-    model="gpt-3.5-turbo",  # Using a faster model for initial planning
+    model="gpt-4o",  # Using a faster model for initial planning
     instructions="Specialized for planning research on policy topics. Generate a focused research plan with search queries and methodology.",
     output_type=dict  # Use dict instead of output_schema
 )
@@ -1556,6 +1556,11 @@ def main():
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"policy_evolution_{timestamp}.md"
             
+            # Get the user's Downloads folder path
+            home_dir = os.path.expanduser("~")
+            downloads_dir = os.path.join(home_dir, "Downloads")
+            file_path = os.path.join(downloads_dir, filename)
+            
             # Create markdown for the report
             md_content = f"# Policy Evolution: {query}\n\n"
             md_content += f"## Executive Summary\n\n{report.summary}\n\n"
@@ -1574,11 +1579,18 @@ def main():
             for i, step in enumerate(report.implementation_steps, 1):
                 md_content += f"{i}. {step}\n"
             
-            # Save the file
-            with open(filename, "w") as f:
-                f.write(md_content)
-            
-            st.success(f"Policy evolution report saved to {filename}. View it in the Policy Dashboard.")
+            # Save the file to Downloads folder
+            try:
+                with open(file_path, "w") as f:
+                    f.write(md_content)
+                st.success(f"Policy evolution report saved to your Downloads folder: {filename}")
+            except Exception as e:
+                st.error(f"Error saving file: {str(e)}")
+                # Fallback to saving in current directory if Downloads folder isn't accessible
+                fallback_path = filename
+                with open(fallback_path, "w") as f:
+                    f.write(md_content)
+                st.warning(f"Couldn't save to Downloads folder. Saved to current directory instead: {fallback_path}")
 
 async def orchestrate_policy_analysis(query: str, context: LocalContext) -> dict:
     """Orchestrate multiple specialized LLMs in parallel processes"""

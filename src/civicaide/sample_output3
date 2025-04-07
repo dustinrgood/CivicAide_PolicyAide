@@ -1,0 +1,380 @@
+============================================================
+       CivicAide Policy Analysis System
+============================================================
+
+An AI-powered multi-agent system for local government policy analysis.
+Combining policy research and analysis capabilities.
+
+Available components:
+1. Full Integrated Policy System (research + analysis)
+2. Policy Research Only
+3. Policy Analysis Only
+4. Context-Aware Policy Evolution System (with local context and web research)
+
+Enter your choice (1-4): 4
+
+Enter your policy question or topic: Ban on Single Use Plastic bags
+Save report to file? (y/n): y
+Enter filename (default: context_aware_policy_20250324_131152.md): ban_bag99
+
+Running Context-Aware Policy Evolution System...
+
+This system will gather local context information and conduct web research
+to create policy proposals tailored to your specific jurisdiction.
+Generating local trace ID: trace_ab750dbbd70744fb9544caaf
+
+============================================================
+CivicAide Policy Evolution System - Mimicking Google's AI Co-Scientist
+============================================================
+
+Policy Query: Ban on Single Use Plastic bags
+
+Trace ID: trace_7bc336066144480c8f3720383640df43
+
+--- Gathering Local Context ---
+
+I'll help you design an effective policy approach for: 'Ban on Single Use Plastic bags'
+
+To customize this for your specific jurisdiction, I need to understand your local context.
+Please answer the following questions to help me provide more relevant policy recommendations:
+
+1. What type of jurisdiction are you in (city, county, etc.) and what's the approximate population?
+2. What are the major industries or economic drivers in your area?
+3. Do you have any existing policies related to this topic?
+4. Are there specific political considerations or constraints to be aware of?
+5. What budget limitations should be considered for implementation?
+6. Are there any unique local challenges or opportunities related to this policy area?
+7. Who are the key stakeholders that would be affected by this policy?
+8. What key demographic factors are important (e.g., median age, income distribution)?
+9. Have similar policies been attempted locally before?
+10. Where are you in the budget cycle?
+11. Are there any upcoming elections to consider?
+Jurisdiction type and population: Elgin Illinois, 115,000 people
+Major industries/economic drivers: Healthcare, education, government
+Existing related policies: none
+Political considerations/constraints: preference for ban over fee
+Budget limitations: $25000
+Unique local challenges/opportunities: We have a strong arts community that could help with designing a reuseable bag promotion
+Key stakeholders: city, residents, environment, businesses
+Key demographic factors: we are a minority majority community
+Have similar policies been attempted locally before? Details: a fee was proposed and tabled in 2023
+Where are you in the budget cycle? Q1
+Upcoming election considerations: In a week on April 1st
+Would you like to provide detailed stakeholder influence information? (yes/no): no
+
+Collected context information:
+- Jurisdiction Type: Elgin Illinois
+- Population Size: 115,000
+- Economic Context: Healthcare, education, government
+- Existing Policies: none
+- Political Landscape: preference for ban over fee
+- Budget Constraints: $25000
+- Local Challenges: We have a strong arts community that could help with designing a reuseable bag promotion
+- Key Stakeholders: city, residents, environment, businesses
+- Demographic Profile: we are a minority majority community
+- Prior Attempts: a fee was proposed and tabled in 2023
+- Budget Cycle: Q1
+- Election Timeline: In a week on April 1st
+- Contextual Notes: None
+
+Local context information gathered successfully.
+
+[DEBUG] Local context object attributes:
+  jurisdiction_type: Elgin Illinois
+  population_size: 115,000
+  economic_context: Healthcare, education, government
+  existing_policies: none
+  political_landscape: preference for ban over fee
+  budget_constraints: $25000
+  local_challenges: We have a strong arts community that could help with designing a reuseable bag promotion
+  key_stakeholders: city, residents, environment, businesses
+  demographic_profile: we are a minority majority community
+  prior_attempts: a fee was proposed and tabled in 2023
+  budget_cycle: Q1
+  election_timeline: In a week on April 1st
+  contextual_notes: None
+
+--- Conducting Web Research ---
+
+Generated research plan with 5 search queries.
+Executing web searches...
+  Search 1/5: Ban on Single Use Plastic bags successful implementations
+  Search 2/5: Ban on Single Use Plastic bags ordinance example Elgin Illinois
+  Search 3/5: Ban on Single Use Plastic bags economic impact Healthcare, education, government
+  Search 4/5: Ban on Single Use Plastic bags stakeholder response city, residents, environment, businesses
+  Search 5/5: Ban on Single Use Plastic bags implementation challenges
+Web research completed. Synthesizing findings...
+
+--- Generation 1 ---
+
+Generating initial policy proposals...
+
+[DEBUG] Policy generation prompt (first 500 chars):
+Policy Query: Ban on Single Use Plastic bags
+
+LOCAL CONTEXT (IMPORTANT - CUSTOMIZE PROPOSALS FOR THIS SPECIFIC CONTEXT):
+- Jurisdiction: Elgin Illinois (Population: 115,000)
+- Economic Context: Healthcare, education, government
+- Existing Policies: none
+- Political Landscape: preference for ban over fee
+- Budget Constraints: $25000
+- Local Challenges: We have a strong arts community that could help with designing a reuseable bag promotion
+- Key Stakeholders: city, residents, environment, busines...
+
+Generated 3 initial policy proposals
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Elgin Eco-Business Certification vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Eco-Business Certification vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+  Tournament round 2/5
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+  Tournament round 3/5
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Eco-Business Certification
+    Winner: Elgin Eco-Business Certification
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Eco-Business Certification
+    Winner: Elgin Eco-Business Certification
+  Tournament round 4/5
+    Comparison: Elgin Eco-Business Certification vs Elgin Plastic-Free Arts Partnership
+    Winner: Elgin Plastic-Free Arts Partnership
+    Comparison: Elgin Eco-Business Certification vs Elgin Plastic-Free Arts Partnership
+    Winner: Elgin Plastic-Free Arts Partnership
+  Tournament round 5/5
+    Comparison: Elgin Eco-Business Certification vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Eco-Business Certification vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+
+Current Policy Proposal Rankings:
+1. Elgin Green Bag Initiative (Elo: 1245.0)
+2. Elgin Plastic-Free Arts Partnership (Elo: 1186.1)
+3. Elgin Eco-Business Certification (Elo: 1168.8)
+
+
+--- Generation 2 ---
+
+
+--- Evolving Top Policies ---
+
+  Evolved: Elgin Green Bag Initiative -> Elgin Sustainable Bag Initiative
+  Improvements: 1. Introduced a phased approach to the plastic bag ban to allow for smoother transition and adjustme...
+  Evolved: Elgin Plastic-Free Arts Partnership -> Elgin Comprehensive Plastic-Free Initiative
+  Improvements: The evolved policy enhances stakeholder engagement by broadening the educational focus to general en...
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Elgin Sustainable Bag Initiative vs Elgin Comprehensive Plastic-Free Initiative
+    Winner: Elgin Comprehensive Plastic-Free Initiative
+    Comparison: Elgin Sustainable Bag Initiative vs Elgin Comprehensive Plastic-Free Initiative
+    Winner: Elgin Comprehensive Plastic-Free Initiative
+Request failed: [Errno 11001] getaddrinfo failed
+Request failed: [Errno 11001] getaddrinfo failed
+Request failed: [Errno 11001] getaddrinfo failed
+Max retries reached, giving up on this batch.
+    Comparison: Elgin Eco-Business Certification vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Eco-Business Certification vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+  Tournament round 2/5
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Eco-Business Certification vs Elgin Plastic-Free Arts Partnership
+    Winner: Elgin Plastic-Free Arts Partnership
+    Comparison: Elgin Eco-Business Certification vs Elgin Plastic-Free Arts Partnership
+    Winner: Elgin Plastic-Free Arts Partnership
+  Tournament round 3/5
+    Comparison: Elgin Eco-Business Certification vs Elgin Comprehensive Plastic-Free Initiative
+    Winner: Elgin Comprehensive Plastic-Free Initiative
+    Comparison: Elgin Eco-Business Certification vs Elgin Comprehensive Plastic-Free Initiative
+    Winner: Elgin Comprehensive Plastic-Free Initiative
+    Comparison: Elgin Green Bag Initiative vs Elgin Sustainable Bag Initiative
+    Winner: Elgin Sustainable Bag Initiative
+    Comparison: Elgin Green Bag Initiative vs Elgin Sustainable Bag Initiative
+    Winner: Elgin Sustainable Bag Initiative
+  Tournament round 4/5
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Elgin Sustainable Bag Initiative
+    Winner: Elgin Sustainable Bag Initiative
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Elgin Sustainable Bag Initiative
+    Winner: Elgin Sustainable Bag Initiative
+  Tournament round 5/5
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Elgin Plastic-Free Arts Partnership
+    Winner: Elgin Plastic-Free Arts Partnership
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Elgin Plastic-Free Arts Partnership
+    Winner: Elgin Plastic-Free Arts Partnership
+Request failed: [Errno 11001] getaddrinfo failed
+Request failed: [Errno 11001] getaddrinfo failed
+    Comparison: Elgin Green Bag Initiative vs Elgin Sustainable Bag Initiative
+    Winner: Elgin Sustainable Bag Initiative
+    Comparison: Elgin Green Bag Initiative vs Elgin Sustainable Bag Initiative
+    Winner: Elgin Sustainable Bag Initiative
+
+Current Policy Proposal Rankings:
+1. Elgin Green Bag Initiative (Elo: 1247.3)
+2. Elgin Sustainable Bag Initiative (Elo: 1238.5)
+3. Elgin Plastic-Free Arts Partnership (Elo: 1203.6)
+4. Elgin Comprehensive Plastic-Free Initiative (Elo: 1182.1)
+5. Elgin Eco-Business Certification (Elo: 1128.4)
+
+
+--- Generation 3 ---
+
+
+--- Evolving Top Policies ---
+
+  Evolved: Elgin Green Bag Initiative -> Enhanced Elgin Green Bag Initiative
+  Improvements: The improved proposal enhances feasibility by including business subsidies and consumer incentives, ...
+  Evolved: Elgin Sustainable Bag Initiative -> Elgin Comprehensive Sustainable Bag Initiative
+  Improvements: 1. Expand the initiative to include a variety of sustainable alternatives, not only artist-designed ...
+
+--- Running Policy Tournament ---
+
+  Tournament round 1/5
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Elgin Sustainable Bag Initiative
+    Winner: Elgin Sustainable Bag Initiative
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Elgin Sustainable Bag Initiative
+    Winner: Elgin Sustainable Bag Initiative
+    Comparison: Enhanced Elgin Green Bag Initiative vs Elgin Comprehensive Sustainable Bag Initiative
+    Winner: Elgin Comprehensive Sustainable Bag Initiative
+    Comparison: Enhanced Elgin Green Bag Initiative vs Elgin Comprehensive Sustainable Bag Initiative
+    Winner: Elgin Comprehensive Sustainable Bag Initiative
+  Tournament round 2/5
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Elgin Comprehensive Sustainable Bag Initiative
+    Winner: Elgin Comprehensive Sustainable Bag Initiative
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Elgin Comprehensive Sustainable Bag Initiative
+    Winner: Elgin Comprehensive Sustainable Bag Initiative
+    Comparison: Enhanced Elgin Green Bag Initiative vs Elgin Plastic-Free Arts Partnership
+    Winner: Elgin Plastic-Free Arts Partnership
+    Comparison: Enhanced Elgin Green Bag Initiative vs Elgin Plastic-Free Arts Partnership
+    Winner: Elgin Plastic-Free Arts Partnership
+    Comparison: Elgin Sustainable Bag Initiative vs Elgin Eco-Business Certification
+    Winner: Elgin Eco-Business Certification
+    Comparison: Elgin Sustainable Bag Initiative vs Elgin Eco-Business Certification
+    Winner: Elgin Eco-Business Certification
+  Tournament round 3/5
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Comprehensive Sustainable Bag Initiative
+    Winner: Elgin Comprehensive Sustainable Bag Initiative
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Comprehensive Sustainable Bag Initiative
+    Winner: Elgin Comprehensive Sustainable Bag Initiative
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Enhanced Elgin Green Bag Initiative
+    Winner: Enhanced Elgin Green Bag Initiative
+    Comparison: Elgin Comprehensive Plastic-Free Initiative vs Enhanced Elgin Green Bag Initiative
+    Winner: Enhanced Elgin Green Bag Initiative
+    Comparison: Elgin Green Bag Initiative vs Elgin Sustainable Bag Initiative
+    Winner: Elgin Sustainable Bag Initiative
+    Comparison: Elgin Green Bag Initiative vs Elgin Sustainable Bag Initiative
+    Winner: Elgin Sustainable Bag Initiative
+  Tournament round 4/5
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Comprehensive Plastic-Free Initiative
+    Winner: Elgin Comprehensive Plastic-Free Initiative
+    Comparison: Elgin Plastic-Free Arts Partnership vs Elgin Comprehensive Plastic-Free Initiative
+    Winner: Elgin Comprehensive Plastic-Free Initiative
+    Comparison: Elgin Eco-Business Certification vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Eco-Business Certification vs Elgin Green Bag Initiative
+    Winner: Elgin Green Bag Initiative
+    Comparison: Elgin Sustainable Bag Initiative vs Elgin Comprehensive Sustainable Bag Initiative
+    Winner: Elgin Comprehensive Sustainable Bag Initiative
+    Comparison: Elgin Sustainable Bag Initiative vs Elgin Comprehensive Sustainable Bag Initiative
+    Winner: Elgin Comprehensive Sustainable Bag Initiative
+  Tournament round 5/5
+    Comparison: Elgin Green Bag Initiative vs Elgin Comprehensive Plastic-Free Initiative
+    Winner: Elgin Comprehensive Plastic-Free Initiative
+    Comparison: Elgin Green Bag Initiative vs Elgin Comprehensive Plastic-Free Initiative
+    Winner: Elgin Comprehensive Plastic-Free Initiative
+    Comparison: Elgin Sustainable Bag Initiative vs Elgin Plastic-Free Arts Partnership
+    Winner: Elgin Plastic-Free Arts Partnership
+    Comparison: Elgin Sustainable Bag Initiative vs Elgin Plastic-Free Arts Partnership
+    Winner: Elgin Plastic-Free Arts Partnership
+    Comparison: Enhanced Elgin Green Bag Initiative vs Elgin Comprehensive Sustainable Bag Initiative
+    Winner: Elgin Comprehensive Sustainable Bag Initiative
+    Comparison: Enhanced Elgin Green Bag Initiative vs Elgin Comprehensive Sustainable Bag Initiative
+    Winner: Elgin Comprehensive Sustainable Bag Initiative
+
+Current Policy Proposal Rankings:
+1. Elgin Comprehensive Sustainable Bag Initiative (Elo: 1273.4)
+2. Elgin Green Bag Initiative (Elo: 1235.3)
+3. Elgin Sustainable Bag Initiative (Elo: 1213.0)
+4. Elgin Plastic-Free Arts Partnership (Elo: 1190.9)
+5. Elgin Comprehensive Plastic-Free Initiative (Elo: 1178.2)
+6. Enhanced Elgin Green Bag Initiative (Elo: 1171.1)
+7. Elgin Eco-Business Certification (Elo: 1138.1)
+
+
+--- Creating Final Policy Report ---
+
+
+[DEBUG] Local context in final report creation:
+  jurisdiction_type: Elgin Illinois
+  population_size: 115,000
+  economic_context: Healthcare, education, government
+  existing_policies: none
+  political_landscape: preference for ban over fee
+  budget_constraints: $25000
+  local_challenges: We have a strong arts community that could help with designing a reuseable bag promotion
+  key_stakeholders: city, residents, environment, businesses
+  demographic_profile: we are a minority majority community
+  prior_attempts: a fee was proposed and tabled in 2023
+  budget_cycle: Q1
+  election_timeline: In a week on April 1st
+  contextual_notes: None
+
+[DEBUG] Sample of report input (first 500 chars):
+Policy Query: Ban on Single Use Plastic bags
+
+LOCAL CONTEXT (CRITICAL FOR REPORT CUSTOMIZATION):
+- Jurisdiction: Elgin Illinois (Population: 115,000)
+- Economic Context: Healthcare, education, government
+- Existing Policies: none
+- Political Landscape: preference for ban over fee
+- Budget Constraints: $25000
+- Local Challenges: We have a strong arts community that could help with designing a reuseable bag promotion
+- Key Stakeholders: city, residents, environment, businesses
+- Demographics: we a
+Final policy report created
+Traceback (most recent call last):
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\run_policy_system.py", line 498, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\run_policy_system.py", line 495, in main
+    asyncio.run(main_async())
+    ~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python313\Lib\asyncio\base_events.py", line 720, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\run_policy_system.py", line 417, in main_async
+    report, trace_file = await run_with_tracing(query, "evolution", run_policy_evolution)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\run_policy_system.py", line 136, in run_with_tracing
+    result = await run_function(policy_query, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\policy_evolution.py", line 1236, in run_policy_evolution
+    return await manager.run(query)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dusti\CivicAide_PolicyAide\src\civicaide\policy_evolution.py", line 583, in run
+    trace_file = trace_processor.save_trace_to_file_and_db(query, "evolution")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SimpleTraceProcessor' object has no attribute 'save_trace_to_file_and_db'. Did you mean: 'save_trace_to_file_and_db_and_db'?
+PS C:\Users\dusti\CivicAide_PolicyAide\src\civicaide>

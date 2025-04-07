@@ -159,4 +159,48 @@ This caused the system to fall back to default "Not specified" values for all co
 1. Add more comprehensive input validation for all context fields
 2. Consider using a more structured form-like interface for context gathering
 3. Add examples of expected input format for each field
-4. Consider adding a review step where users can verify their context information before proceeding 
+4. Consider adding a review step where users can verify their context information before proceeding
+
+## 2024-03-19: Policy Comparison Enhancement
+
+### Issue Identified
+The policy tournament system was comparing proposals using only their IDs rather than full text content. This limited the quality of comparisons and potentially led to less accurate policy rankings.
+
+### Root Cause Analysis
+1. The `_compare_proposals` method was receiving only proposal IDs
+2. The model couldn't evaluate the actual content of proposals
+3. This led to potentially superficial comparisons based on limited information
+
+### Implemented Fixes
+1. Modified `_compare_proposals` to use full proposal text:
+   - Now receives complete policy text instead of just IDs
+   - Includes title, description, rationale, and implementation details
+   - Allows for deeper, more nuanced comparisons
+
+2. Enhanced winner determination:
+   - Matches returned text with original proposal texts
+   - Explicitly calculates winner and loser IDs
+   - Updates Elo ratings with clear winner/loser identification
+
+3. Improved traceability:
+   - Added proper trace ID and round span ID tracking
+   - Ensures token usage and OpenAI response IDs are properly recorded
+   - Maintains better audit trail of comparison decisions
+
+### Impact
+- Higher quality policy comparisons due to full context evaluation
+- More accurate Elo ratings based on detailed analysis
+- Better traceability of decision-making process
+- Increased processing time and token usage, but justified by improved quality
+
+### Current Status
+- System now performs full-text comparisons
+- Processing time increased but quality improved
+- Better tracking of comparison reasoning
+- More accurate policy evolution results
+
+### Next Steps
+1. Monitor comparison quality metrics
+2. Consider adding comparison reasoning to final reports
+3. Evaluate potential optimizations while maintaining quality
+4. Add logging for comparison quality assessment 

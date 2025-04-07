@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Mayor-Council",
+    "description": "Elected mayor serves as chief executive; separate elected council serves as legislative body"
+  },
+  {
+    "name": "Council-Manager",
+    "description": "Professional manager appointed by council; mayor is council member with ceremonial duties"
+  },
+  {
+    "name": "Commission",
+    "description": "Elected commissioners serve as both legislative body and administrative heads of departments"
+  },
+  {
+    "name": "Town Meeting",
+    "description": "Citizens directly vote on major policies; elected board handles day-to-day administration"
+  },
+  {
+    "name": "Representative Town Meeting",
+    "description": "Elected representatives vote on behalf of citizens; elected board handles day-to-day administration"
+  }
+]
